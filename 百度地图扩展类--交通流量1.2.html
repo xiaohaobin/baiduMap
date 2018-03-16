@@ -1,0 +1,26 @@
+
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="http://api.map.baidu.com/library/TrafficControl/1.2/src/TrafficControl_min.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.2"></script>
+  
+ </head>
+
+ <body>
+   
+    <div style="width:520px;height:340px;border:1px solid gray" id="container">
+    </div>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/TrafficControl/1.2/src/TrafficControl_min.js"></script>
+    <script type="text/javascript">
+       var map = new BMap.Map("container");
+      
+       map.centerAndZoom(new BMap.Point(116.404, 39.915), 12); 
+       var ctrl = new BMapLib.TrafficControl();      
+       map.addControl(ctrl);
+       ctrl.setAnchor(BMAP_ANCHOR_BOTTOM_RIGHT);  
+       
+    </script>
+ </body>
+</html>

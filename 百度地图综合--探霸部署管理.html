@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!--手机显示正常的声明-->
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/mark.css" />
+		
+		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.myPlugIn_v1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/formTpl.js" type="text/javascript" charset="utf-8"></script>
+		<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>
+		<!--城市列表sss-->
+		<script src="js/BMapLib_CityList.js" type="text/javascript" charset="utf-8"></script>
+		<!--城市列表eee-->
+		<!--自定义标注sss-->
+		<script src="js/MarkerTool_min.js" type="text/javascript" charset="utf-8"></script>
+		<!--自定义标注eee-->
+		<title>地图控件</title>
+		<style type="text/css">
+			html {
+				height: 100%
+			}
+			
+			body {
+				height: 100%;
+				margin: 0px;
+				padding: 0px;
+				position: relative;
+			}
+			
+			#allmap {
+				height: 100%
+			}
+			
+			#container {
+				font-size: 12px;
+				margin: 5px 0;
+			}
+			
+			.BMap_scaleCtrl.BMap_noprint.anchorTR {
+				background: #fff;
+				border: 1px solid #ddd;
+				padding: 10px 3px;
+			}
+			
+			.BMap_cpyCtrl.BMap_noprint.anchorBL {
+				display: none;
+			}
+			.lf{
+				float: left;
+			}
+			.rf{
+				float: right;
+			}
+			.parentClear{
+				overflow: hidden;
+			}
+			.parentClear:after{
+				content: "";
+				display: block;
+				clear: both;
+			}
+			#diyMarkBox{
+				/*position: relative;*/
+			}
+			#divStyle{
+				position: absolute;
+				top: 46px;
+				left: 0;
+				background: #fff;
+				z-index: 200;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div id="controlBox" >
+
+			<!--级联城市列表容器sss-->
+			<div id="cityContainer" ></div>
+			<!--级联城市列表容器eee-->
+
+			<!--添加标注组件模块sss-->
+			<div id="diyMarkBox" >
+
+				<input type="button" value="选择标注样式" onclick="openStylePnl()" />
+				<input type="button" value="关闭" onclick="mkrTool.close()" />
+				<div id="divStyle">
+					<ul>
+						
+					</ul>
+				</div>
+
+			</div>
+			<!--添加标注组件模块eee-->
+		</div>
+		
+		
+		
+		<div id="allmap"></div>
+		
+		
+		<script type="text/javascript">
+			//渲染自定义覆盖物图标列表
+			$.ajax({
+				type:"get",
+				url:"json/markToolList1.json",
+				async:true,
+				success:function(data){
+					$.each(data.htmlData, function(i,v) {
+						var aLi = $('<li></li>');
+						$.each(v.htmlData, function(k,e) {
+							var aA = $('<a href="javascript:void(0)" onclick="selectStyle('+ e.id +')"><img src="'+ e.src +'" style="width:'+ e.width +';height:'+ e.height +';background-position:'+ e.backgroundPosition +'"/></a>');
+							aLi.append(aA);
+						});
+						$('#divStyle ul').append(aLi);
+					});
+					$.ajax({
+						type:"get",
+						url:"json/markToolList2.json",
+						async:true,
+						success:function(d){
+							$.each(d.htmlData, function(i,v) {
+								var aLi = $('<li class="'+ v.className +'"></li>');
+								$.each(v.htmlData, function(k,e) {
+									var aA = $('<a href="javascript:void(0)" onclick="selectStyle('+ e.id +')"><img src="'+ e.src +'" style="width:'+ e.width +';height:'+ e.height +';"/></a>');
+									aLi.append(aA);
+								});
+								$('#divStyle ul').append(aLi);
+							});
+						}
+					});
+				}
+			});
+		</script>
+		<script type="text/javascript">
+			// 百度地图API功能
+			var map = new BMap.Map("allmap");
+			var point = new BMap.Point(116.404, 39.915);
+			map.centerAndZoom(new BMap.Point(113.953812, 22.549255), 17);
+			
+			map.enableScrollWheelZoom();
+
+			/*
+			 * 缩放工具栏			
+			 * */
+			var navigationControl = new BMap.NavigationControl({
+				anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
+				offset: new BMap.Size(10, 100),
+				type: BMAP_NAVIGATION_CONTROL_LARGE,
+				showZoomInfo: true,
+				enableGeolocation: true
+			});
+			map.addControl(navigationControl);
+
+			/*
+			 比例尺,比例尺比例和地图级别有关
+			 * */
+			var scaleControl = new BMap.ScaleControl({
+				anchor: BMAP_ANCHOR_TOP_RIGHT,
+				offset: new BMap.Size(0, 0),
+			});
+			map.addControl(scaleControl);
+		</script>
+
+		<script type="text/javascript">
+			/*
+			  版权控件
+			   addCopyright(copyright:Copyright):添加版权信息。
+		        removeCopyright(id):移除版权信息。
+		        getCopyright(id):返回单个版权信息。(Copyright)
+		        getCopyrightCollection():返回版权信息列表。(Array<Copyright>)
+			  * */
+			var copyrightControl = new BMap.CopyrightControl({
+				anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
+				offset: new BMap.Size(10, 10),
+			});
+			var cr = new BMap.Copyright();
+			cr.id = 000221012201;
+			cr.content = "肖浩彬的测试版本";
+			var b = new BMap.Bounds(new BMap.Point(1, 1), new BMap.Point(150, 150));
+			cr.bounds = b;
+			copyrightControl.addCopyright(cr);
+			map.addControl(copyrightControl);
+			var cr1 = copyrightControl.getCopyright(000221012201);
+		</script>
+
+		<script type="text/javascript">
+			//负责进行地图当前位置定位的控件
+			var geolocationControl = new BMap.GeolocationControl({
+				anchor: BMAP_ANCHOR_BOTTOM_LEFT,
+				showAddressBar: true,
+				offset: new BMap.Size(10, 50),
+				enableGeolocation: true
+			});
+			//定位成功事件
+			geolocationControl.addEventListener("locationSuccess", function(e) {
+				// 定位成功事件
+				console.log(e);
+				var address = '';
+				address += e.addressComponent.province;
+				address += e.addressComponent.city;
+				address += e.addressComponent.district;
+				address += e.addressComponent.street;
+				address += e.addressComponent.streetNumber;
+				alert("当前定位地址为：" + address);
+				//			    console.log(geolocationControl.getAddressComponent());//：返回当前的定位信息。
+			});
+			//定位失败事件
+			geolocationControl.addEventListener("locationError", function(e) {
+				alert("定位失败：" + e.message);
+			});
+			map.addControl(geolocationControl);
+		</script>
+		
+		<script type="text/javascript">
+			//实例化城市列表类
+//			var cityList = new BMapLib.CityList({
+//				container: 'cityContainer',
+//				map: map
+//			});
+
+			///传商圈字段，获取商圈所属上级区域和商圈类型
+//			cityList.getBusiness('中关村', function(json) {
+//				console.log(json);
+//			});
+//			//点击选择城市下拉框的事件监听
+//			cityList.addEventListener('cityclick', function(e) {
+//				console.log(e);
+//				//传区域编码，获取区域对象
+//				cityList.getSubAreaList(131, function(json) {
+//					console.log(json);
+//				});
+//
+//			});
+		</script>
+		
+		<script type="text/javascript">
+			//已经部署的探霸数据数组
+			var aTbInfo = [];
+			
+			//回显已经部署的探霸
+			if(localStorage.getItem("aTbInfo")){
+				aTbInfo = JSON.parse(localStorage.getItem("aTbInfo"));
+				console.log(aTbInfo);
+				//添加标注
+				for(var ke in aTbInfo){
+					var backP = new BMap.Point(aTbInfo[ke].jwd[0], aTbInfo[ke].jwd[1]);
+					var backIcon = new BMap.Icon(aTbInfo[ke].tanbaIcon, new BMap.Size(36, 36));
+					var backMkr = new BMap.Marker(backP, {
+						icon: backIcon
+					}); // 创建标注
+					map.addOverlay(backMkr); // 将标注添加到地图中
+				}
+				
+			}
+			
+			
+			
+			//sHtml form formTpl.js,表单模板
+			var infoWin = new BMap.InfoWindow(sHtml, {
+				offset: new BMap.Size(0, -10)
+			});
+			var curMkr = null; // 记录当前添加的Mkr
+
+			var mkrTool = new BMapLib.MarkerTool(map, {
+				autoClose: true
+			});
+			var geoc = new BMap.Geocoder();//实例化查询定位对象
+			//监听覆盖物添加到地图事件
+			mkrTool.addEventListener("markend", function(evt) {
+				console.log(evt.target._opts.icon);
+				var mkr = evt.marker;
+				mkr.enableDragging(); //设置可拖拽
+				mkr.openInfoWindow(infoWin);
+				curMkr = mkr;
+				
+				//初始化经纬度，图标和地址
+				$('#tanbaIcon').val(evt.target._opts.icon.imageUrl);
+				$('#jwd').val(mkr.getPosition().lng + ',' + mkr.getPosition().lat);
+				var	pt = mkr.getPosition();
+				geoc.getLocation(pt, function(rs) {
+					addComp = rs.addressComponents;
+					dizhi = addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+					$('#tanbaAddr').val(dizhi);
+				});
+				
+				//监听拖动覆盖物，更新编辑其信息
+				mkr.addEventListener("dragend", function(e) { //拖动事件 
+					var pt = e.point;
+					console.log(pt);
+					geoc.getLocation(pt, function(rs) {
+						addComp = rs.addressComponents;
+						dizhi = addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+						$('#tanbaAddr').val(dizhi); //更新地址数据
+//						console.log(dizhi);
+					});
+					$('#jwd').val(e.point.lng + "," + e.point.lat);
+					//重新设置圆的中心点
+					circle.setCenter(pt);
+				});
+				
+				//监听点击覆盖物,更新编辑其信息
+				mkr.addEventListener("click", function(e,d,w) { 
+					console.log(e);
+					var _this = this;
+					//打开信息窗口
+					this.openInfoWindow(infoWin);
+					
+					
+					
+					//回显地址，经纬度，图标路劲，圆的半径
+					var pt = e.point;
+					geoc.getLocation(pt, function(rs) {
+						addComp = rs.addressComponents;
+						dizhi = addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+						$('#tanbaAddr').val(dizhi);
+					});
+					console.log(e.point.lng + "," + e.point.lat);
+					$('#jwd').val(e.point.lng + "," + e.point.lat);
+					$('#tanbaIcon').val(_this.z.kj.imageUrl);
+					$('#radius').val(circle.getRadius());
+					
+					//监听圆半径输入框键盘输入事件
+					$('#radius').on('blur',function(){
+						circle.setRadius($(this).val());
+					});
+				});
+				
+				mkr.addEventListener("dblclick", function(e) { 
+					map.removeOverlay(this)
+				});
+				//画圆
+				var nLng = mkr.getPosition().lng,
+					nLat = mkr.getPosition().lat;
+				var cPoint = new BMap.Point(nLng, nLat);
+				var circle = new BMap.Circle(cPoint,100,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3});
+				map.addOverlay(circle);
+				
+				//监听圆半径输入框键盘输入事件
+				$('#radius').on('blur',function(){
+					circle.setRadius($(this).val());
+				});
+			});
+			
+			
+			
+			//打开样式面板
+			function openStylePnl() {
+				document.getElementById("divStyle").style.display = "block";
+			}
+
+			//选择样式
+			function selectStyle(index) {
+				mkrTool.open(); //打开工具 
+				console.log(BMapLib);
+				var icon = BMapLib.MarkerTool.SYS_ICONS[index]; //设置工具样式，使用系统提供的样式BMapLib.MarkerTool.SYS_ICONS[0] -- BMapLib.MarkerTool.SYS_ICONS[23]
+				console.log(icon);
+				mkrTool.setIcon(icon);
+				document.getElementById("divStyle").style.display = "none";
+			}
+
+			//提交数据
+			function fnOK() {
+				var tanbaName = encodeHTML(document.getElementById("tanbaName").value);
+				var tanbaID = encodeHTML(document.getElementById("tanbaID").value);
+				var tanbaAddr = encodeHTML(document.getElementById("tanbaAddr").value);
+				var jwd = encodeHTML(document.getElementById("jwd").value);
+				var desc = encodeHTML(document.getElementById("areaDesc").value);
+				var radius = encodeHTML(document.getElementById("radius").value);
+				var tanbaIcon = encodeHTML(document.getElementById("tanbaIcon").value);
+				
+				if(!tanbaName || !tanbaID || !radius) {
+					alert("星号字段必须填写");
+					return;
+				}
+
+				if(curMkr) {
+					//设置label
+					var lbl = new BMap.Label(tanbaName, {
+						offset: new BMap.Size(15, -15)
+					});
+					lbl.setStyle({
+						border: "solid 1px gray"
+					});
+					curMkr.setLabel(lbl);
+
+					//设置title
+					var title = "探霸id: " + tanbaID + "\n\r" + "地址: " + tanbaAddr + "\n\r" + "描述: " + desc;
+					curMkr.setTitle(title);
+				}
+				if(infoWin.isOpen()) {
+					map.closeInfoWindow();
+				}
+				
+				//在此用户可将数据提交到后台数据库中
+				var tanbaData = {
+					tanbaName:tanbaName,
+					tanbaID:tanbaID,
+					tanbaAddr:tanbaAddr,
+					jwd:$.stringToArray(jwd,','),
+					desc:desc,
+					radius:radius,
+					tanbaIcon:tanbaIcon
+				}
+				if(localStorage.getItem("aTbInfo")){
+					aTbInfo = JSON.parse(localStorage.getItem("aTbInfo"));
+				}
+				aTbInfo.push(tanbaData);
+				localStorage.setItem("aTbInfo",JSON.stringify(aTbInfo));
+				console.log(JSON.parse(localStorage.getItem("aTbInfo")));
+				
+			}
+
+			//输入校验
+			function encodeHTML(a) {
+				return a.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+			}
+
+
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!--手机显示正常的声明-->
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<title>地图控件</title>
+		<style type="text/css">
+			html {
+				height: 100%
+			}
+			
+			body {
+				height: 100%;
+				margin: 0px;
+				padding: 0px
+			}
+			
+			#allmap {
+				height: 600px;
+				/*width: 49%;
+				display: inline-block;*/
+			}
+			
+			#container {
+				font-size: 12px;
+				margin: 5px 0;
+				display: inline-block;
+				width: 49%;
+			}
+			
+			.optionBox {
+				width: 100%;
+			}
+			
+			.searchOption {
+				display: inline-block;
+				width: 50%;
+			}
+			/*#result{
+				display: inline-block;
+				width: 50%;
+			}*/
+		</style>
+
+	</head>
+
+	<body>
+		<dl>
+			<dt>区域选择：</dt>
+			<dd>
+				<!--级联城市列表容器ss-->
+				<div id="container"></div>
+				<!--级联城市列表容器ee-->
+			</dd>
+		</dl>
+		<dl>
+			<dt>关键词拉框搜索：</dt>
+			<dd>
+				<div class="searchOption">
+					<input type="text" name="keyWord" id="keyWord" value="足浴" placeholder="请输入关键词" />
+					<input type="button" value="地图区域拉框搜索" onclick="searchKeyword();" />
+					<input type="button" value="关闭搜索" onclick="pullBox.close();" />
+				</div>
+			</dd>
+		</dl>
+		<dl>
+			<dt>关键词搜索地点</dt>
+			<dd>
+				<input type="text" name="searchArea" id="searchArea" value="酒仙桥" placeholder="搜索关键词" />
+				<button type="button" onclick="forArea();">搜索地点</button>
+			</dd>
+		</dl>
+		<dl>
+			<dt>测距工具：</dt>
+			<dd>
+				<input type="button" value="开启测距功能" onclick="myDis.open();" />
+				<input type="button" value="关闭测距功能" onclick="myDis.close()" />
+			</dd>
+		</dl>
+		<div>
+			<input type="button" value="清除所有覆盖物" onclick="clearAll()" />
+		</div>
+		<div class="mapAndList">
+			<!--map-->
+			<div id="allmap"></div>
+			<!--map-->
+
+			<!--search result-->
+			<div id="result" style="width:520px;"></div>
+			<!--search result-->
+		</div>
+
+		<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>
+		<!--<script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>-->
+		<!--<script type="text/javascript" src="http://api.map.baidu.com/library/CityList/1.4/src/CityList_min.js"></script>-->
+		<script src="js/BMapLib_CityList.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/SearchInRectangle_min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/DistanceTool/1.2/src/DistanceTool_min.js"></script>
+		<script type="text/javascript">
+			var keyword = "足浴",
+				local,
+				pullBox;
+			// 百度地图API功能
+			var map = new BMap.Map("allmap");
+			var point = new BMap.Point(116.404, 39.915);
+			map.centerAndZoom(point, 15);
+			map.enableScrollWheelZoom(true); //默认关闭鼠标缩放。重新设置true
+
+			//负责进行地图定位的控件
+			var geolocationControl = new BMap.GeolocationControl({
+				anchor: BMAP_ANCHOR_BOTTOM_LEFT,
+				showAddressBar: true,
+				enableGeolocation: true
+			});
+			//定位成功事件
+			//			geolocationControl.addEventListener("locationSuccess", function(e) {
+			//				// 定位成功事件
+			//				console.log(e);
+			//			    var address = '';
+			//			    address += e.addressComponent.province;
+			//			    address += e.addressComponent.city;
+			//			    address += e.addressComponent.district;
+			//			    address += e.addressComponent.street;
+			//			    address += e.addressComponent.streetNumber;
+			//			    alert("当前定位地址为：" + address);
+			////			    console.log(geolocationControl.getAddressComponent());//：返回当前的定位信息。
+			//			});
+			//定位失败事件
+			geolocationControl.addEventListener("locationError", function(e) {
+				alert("定位失败：" + e.message);
+			});
+			map.addControl(geolocationControl);
+
+			//测距功能
+			var myDis = new BMapLib.DistanceTool(map);
+
+			//实例化城市列表类
+			var cityList = new BMapLib.CityList({
+				container: 'container',
+				map: map
+			});
+		
+			//点击选择城市下拉框的事件监听
+			cityList.addEventListener('cityclick', function(e,i,d) {
+				console.log(e,i,d);
+				//传区域编码，获取区域对象
+				cityList.getSubAreaList(131, function(json) {
+					console.log(json);
+				});
+				
+			});
+
+			//配置拉框搜索功能
+			var options = {
+				renderOptions: {
+					map: map,
+					strokeWeight: 2,
+					strokeColor: "red",
+					opacity: 0.7,
+					followText: "拖拽鼠标搜索" + keyword + "",
+					autoClose: false,
+					autoViewport: false,
+					panel: "result",
+					selectFirstResult: true
+				}
+			};
+
+			//地图区域拉框搜索
+			function searchKeyword() {
+				keyword = document.getElementById("keyWord").value;
+				options.renderOptions.followText = "拖拽鼠标搜索" + keyword + "";
+
+				pullBox = new BMapLib.SearchInRectangle(map, keyword, options);
+				pullBox.setFillColor("white");
+				pullBox.setLineStyle("dashed");
+				pullBox.open();
+			}
+
+			//模糊搜索地点
+			function forArea() {
+				local = new BMap.LocalSearch(map, {
+					renderOptions: {
+						map: map
+					}
+				});
+				local.search(document.getElementById("searchArea").value);
+			}
+
+			function clearAll() {
+				//清除所有覆盖物
+				map.clearOverlays();
+			}
+
+			//清除遮罩层
+//			function getBoundary() {
+//				var bdary = new BMap.Boundary();
+//				bdary.get("贵州省", function(rs) { //获取行政区域
+//					map.clearOverlays(); //清除地图覆盖物       
+//					var count = rs.boundaries.length; //行政区域的点有多少个
+//					if(count === 0) {
+//						alert('未能获取当前输入行政区域');
+//						return;
+//					}
+//					var pointArray = [];
+//					for(var i = 0; i < count; i++) {
+//						var ply = new BMap.Polygon(rs.boundaries[i], {
+//							strokeWeight: 2,
+//							strokeColor: "#ff0000",
+//							fillColor: ""
+//						}); //建立多边形覆盖物
+//						map.addOverlay(ply); //添加覆盖物
+//						pointArray = pointArray.concat(ply.getPath());
+//					}
+//					map.setViewport(pointArray); //调整视野  
+//					addlabel();
+//				});
+//			}
+		</script>
+	</body>
+
+</html>

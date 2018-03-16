@@ -1,0 +1,221 @@
+{
+	"name":"自定义覆盖物图片列表",
+	"htmlData":[
+	      {	    	  
+	    	  "ele":"li",
+	    	  "htmlData":[
+	    	              {
+	    	            	 "id":0,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"0 0",
+	 	    	             "width":"12px",
+	 	    	             "height":"21px"
+	    	              },
+	    	              {
+	    	            	 "id":1,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-23px 0",
+	 	    	             "width":"12px",
+	 	    	             "height":"21px"
+	    	              },
+	    	              {
+	    	            	 "id":2,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-46px 0",
+	 	    	             "width":"12px",
+	 	    	             "height":"21px"
+	    	              },
+	    	              {
+	    	            	 "id":3,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-69px 0",
+	 	    	             "width":"12px",
+	 	    	             "height":"21px"
+	    	              },
+	    	              {
+	    	            	 "id":4,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-92px 0",
+	 	    	             "width":"12px",
+	 	    	             "height":"21px"
+	    	              },
+	    	              {
+	    	            	 "id":5,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-115px 0",
+	 	    	             "width":"12px",
+	 	    	             "height":"21px"
+	    	              }
+	    	              
+	    	   ]
+	      },
+	      {	    	  
+	    	  "ele":"li",
+	    	  "htmlData":[
+	    	              {
+	    	            	 "id":6,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"0 -21px",
+	 	    	             "width":"19px",
+	 	    	             "height":"25px"
+	    	              },
+	    	              {
+	    	            	 "id":7,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-23px -21px",
+	 	    	            "width":"19px",
+	 	    	             "height":"25px"
+	    	              },
+	    	              {
+	    	            	 "id":8,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-46px -21px",
+	 	    	            "width":"19px",
+	 	    	             "height":"25px"
+	    	              },
+	    	              {
+	    	            	 "id":9,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-69px -21px",
+	 	    	            "width":"19px",
+	 	    	             "height":"25px"
+	    	              },
+	    	              {
+	    	            	 "id":10,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-92px -21px",
+	 	    	            "width":"19px",
+	 	    	             "height":"25px"
+	    	              },
+	    	              {
+	    	            	 "id":11,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-115px -21px",
+	 	    	             "width":"19px",
+	 	    	             "height":"25px"
+	    	              }
+	    	              
+	    	   ]
+	      },
+	      {	    	  
+	    	  "ele":"li",
+	    	  "htmlData":[
+	    	              {
+	    	            	 "id":12,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"0 -46px",
+	 	    	             "width":"17px",
+	 	    	             "height":"21px"
+	    	              },
+	    	              {
+	    	            	 "id":13,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-23px -46px",
+	 	    	            "width":"17px",
+	 	    	             "height":"21px"
+	    	              },
+	    	              {
+	    	            	 "id":14,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-46px -46px",
+	 	    	            "width":"17px",
+	 	    	             "height":"21px"
+	    	              },
+	    	              {
+	    	            	 "id":15,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-69px -46px",
+	 	    	            "width":"17px",
+	 	    	             "height":"21px"
+	    	              },
+	    	              {
+	    	            	 "id":16,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-92px -46px",
+	 	    	            "width":"17px",
+	 	    	             "height":"21px"
+	    	              },
+	    	              {
+	    	            	 "id":17,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-115px -46px",
+	 	    	            "width":"17px",
+	 	    	             "height":"21px"
+	    	              }
+	    	              
+	    	   ]
+	      },
+	      {	    	  
+	    	  "ele":"li",
+	    	  "htmlData":[
+	    	              {
+	    	            	 "id":18,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"0 -67px",
+	 	    	            "width":"25px",
+	 	    	             "height":"25px"
+	    	              },
+	    	              {
+	    	            	 "id":19,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-25px  -67px",
+	 	    	            "width":"25px",
+	 	    	             "height":"25px"
+	    	              },
+	    	              {
+	    	            	 "id":20,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-50px -67px",
+	 	    	            "width":"25px",
+	 	    	             "height":"25px"
+	    	              },
+	    	              {
+	    	            	 "id":21,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-75px -67px",
+	 	    	            "width":"25px",
+	 	    	             "height":"25px"
+	    	              },
+	    	              {
+	    	            	 "id":22,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-100px -67px",
+	 	    	             "width":"25px",
+	 	    	             "height":"25px"
+	    	              },
+	    	              {
+	    	            	 "id":23,
+	 	    	             "ele":"a",
+	 	    	             "src":"http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/transparent.gif",
+	 	    	             "backgroundPosition":"-125px -67px",
+	 	    	             "width":"19px",
+	 	    	             "height":"25px"
+	    	              }
+	    	              
+	    	   ]
+	      }
+	 ]
+}

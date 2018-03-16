@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>百度地图单点标注</title>
+		<script src="http://api.map.baidu.com/api?v=2.0&ak=A1LU7iHS0avqQwPLAxbhKn0UYSQCuRVH"></script>
+		<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+		<script src="js/jquery.baiduMap.min.js"></script>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			body {
+				font-family: "微软雅黑";
+				background: #eee;
+			}
+			
+			.left,
+			.right {
+				width: 100%;
+				height: 700px;
+				padding: 40px 20px;
+				box-sizing: border-box;
+			}
+			
+			.left {
+				height: 500px;
+			}
+			
+			.container {
+				width: 50%;
+				height: 100%;
+				float: left;
+			}
+			
+			.des {
+				float: right;
+				width: 48%;
+				height: 100%;
+				border: 1px dashed #000;
+				box-sizing: border-box;
+			}
+			
+			.info {
+				margin-top: 20px;
+				padding-left: 20px;
+				color: #cc5522;
+				font-size: 20px;
+				margin-bottom: 40px;
+				text-align: center;
+			}
+			
+			pre {
+				font-family: "微软雅黑";
+				font-size: 14px;
+			}
+			
+			.title {
+				font-size: 14px;
+				font-weight: bold;
+				color: #cc5522;
+			}
+			
+			.content {
+				font-size: 13px;
+				color: #333;
+				margin-top: 6px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="left">
+			<div id="container1" class="container"></div>
+			<div class="des">
+				<p class="info">实例参数</p>
+				<pre>
+			new BaiduMap({
+				id: "container1",
+				title: {
+					text: "北京故宫博物院",
+					className: "title"
+				},
+				content: {
+					className: "content",
+					text: ["地址：北京市东城区东华门大街", "电话：(010)65131892"]
+				},
+				point: {
+					lng: "116.412222",
+					lat: "39.912345"
+				}
+			});	
+               </pre>
+			</div>
+		</div>
+		<div class="right">
+			<div id="container2" class="container"></div>
+			<div class="des">
+				<p class="info">实例参数</p>
+				<pre>
+			   new BaiduMap({
+					id: "container2",
+					title: {
+						text: "北京故宫博物院",
+						className: "title"// 选填--样式类名
+					},
+					content: {
+						className: "content",// 选填--样式类名
+						text: ["地址：北京市东城区东华门大街", "电话：(010)65131892"]
+					},
+					point: {
+						lng: "116.412222",
+						lat: "39.912345"
+					},
+					level: 15,//  选填--地图级别--(默认15)
+					zoom:true,// 选填--是否启用鼠标滚轮缩放功能--(默认false)
+					type: ["地图", "卫星", "三维"],// 选填--显示地图类型--(默认不显示)
+					width: 320,// 选填--信息窗口width--(默认自动调整)
+					height: 70,// 选填--信息窗口height--(默认自动调整)
+					icon: {    // 选填--自定义icon图标
+						url: "img/icon.png",
+						width: 36,
+						height: 36
+					}
+			 });
+			</pre>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			new BaiduMap({
+				id: "container1",
+				title: {
+					text: "北京故宫博物院",
+					className: "title"
+				},
+				content: {
+					className: "content",
+					text: ["地址：北京市东城区东华门大街", "电话：(010)65131892"]
+				},
+				point: {
+					lng: 116.412222,
+					lat: 39.912345
+				}
+			});
+
+			new BaiduMap({
+				id: "container2",
+				title: {
+					text: "北京故宫博物院",
+					className: "title"
+				},
+				content: {
+					className: "content",
+					text: ["地址：北京市东城区东华门大街", "电话：(010)65131892"]
+				},
+				point: {
+					lng: "116.412222",
+					lat: "39.912345"
+				},
+				level: 15,
+				zoom: true,
+				type: ["地图", "卫星", "三维"],
+				width: 320,
+				height: 70,
+				icon: {
+					url: "img/icon.png",
+					width: 36,
+					height: 36
+				}
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!--手机显示正常的声明-->
+    	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<title>地图控件</title>
+		<style type="text/css">
+			html {
+				height: 100%
+			}
+			
+			body {
+				height: 100%;
+				margin: 0px;
+				padding: 0px
+			}
+			
+			#allmap {
+				height: 100%
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div id="allmap"></div>
+		<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+		<script type="text/javascript">
+			// 百度地图API功能
+			var map = new BMap.Map("allmap");
+			var point = new BMap.Point(116.404, 39.915);
+			map.centerAndZoom(point,15);
+			
+			var removeMarker = function(e,ee,marker){
+				//第一参数，指的是经纬度，第二参数指的是标注所在页面的坐标；
+				//第三参数指的是实例化为点的标注覆盖物
+				console.log(e,ee,marker);
+				map.removeOverlay(marker);
+			}
+			
+			
+			//创建右键菜单
+			var markerMenu = new BMap.ContextMenu();
+			markerMenu.addItem(
+				new BMap.MenuItem('删除',removeMarker.bind(marker))
+			);
+			
+			markerMenu.addItem(
+//				new BMap.MenuItem('弹窗',fnAlert.bind(marker))
+				new BMap.MenuItem('弹窗',function(e,k,m){
+					console.log(m);
+					alert("wrnmmp");
+					map.removeOverlay(m);
+				})
+				
+			);
+			
+			var marker = new BMap.Marker(point);
+			map.addOverlay(marker);
+			marker.addContextMenu(markerMenu);
+					
+		</script>
+	</body>
+
+</html>

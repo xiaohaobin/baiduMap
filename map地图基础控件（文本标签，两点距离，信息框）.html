@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!--手机显示正常的声明-->
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<title>地图控件</title>
+		<style type="text/css">
+			html {
+				height: 100%
+			}
+			
+			body {
+				height: 100%;
+				margin: 0px;
+				padding: 0px
+			}
+			
+			#allmap {
+				height: 100%
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div id="allmap"></div>
+		<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+		<script type="text/javascript">
+			var map = new BMap.Map("allmap");
+			map.enableScrollWheelZoom(true); //默认关闭鼠标缩放。重新设置true
+
+			var point = new BMap.Point(116.417854, 39.921988);
+			map.centerAndZoom(point, 15); //定中心
+
+			// 创建标注，将标注添加到地图中
+			var marker = new BMap.Marker(point);
+			map.addOverlay(marker);
+
+			//监听地图点击事件，获取点击的点经纬度
+			map.addEventListener('click', function(e) {
+				var newOne = new BMap.Point(e.point.lng + "," + e.point.lat);
+				console.log(e.point.lng + "," + e.point.lat);
+				//		        map.openInfoWindow(BMap.InfoWindow,newOne);
+			});
+			
+			
+			
+			//文本标签点
+			var labelPoint = new BMap.Point(116.417854, 39.919988);
+			
+			//指定坐标点添加文本标签
+			var lb = new BMap.Label("我是静静....", {
+				position: labelPoint
+			});
+			lb.setStyle({
+				fontSize: "0.6em",
+				border: 0,
+				fontFamily: "微软雅黑",
+				"border-radius": "20px",
+				padding: "10px 20px"
+			});			
+			map.addOverlay(lb);
+			
+			
+			//获取两点之间的距离
+			var distance = map.getDistance(labelPoint, point);
+			//指定覆盖物标注点添加文本标签
+			marker.setLabel(new BMap.Label("我和静静相隔" + distance + "米",{
+				offset: new BMap.Size(10, -10)
+			}));
+			
+			
+			
+			//信息窗口
+			var infoContent = "this is forinfowindow<p>SecondLine</p><img style='float:right;margin:4px'id='imgDemo' src='img/tanba.gif' width='139' height='104' title='IMG'/>";
+
+	     	var infoWin = new BMap.InfoWindow(infoContent);
+	
+	     	map.openInfoWindow(infoWin,new BMap.Point(116.417854, 39.925988));
+	     	
+	     	//监听文本标签事件
+	     	lb.addEventListener('click', function(e) {
+				console.log(e);
+				map.closeInfoWindow(infoWin);
+			});
+		</script>
+	</body>
+
+</html>

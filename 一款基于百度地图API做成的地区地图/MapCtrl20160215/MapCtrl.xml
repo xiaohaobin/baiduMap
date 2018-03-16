@@ -1,0 +1,11 @@
+<CTRLmap>
+	<MapType>1</MapType><!--1:百度地图 2：高德地图  -->
+	<isOnly>1</isOnly><!-- 是否只一个点一个区域 -->
+	<ShowAdress>1</ShowAdress><!-- 是否显示区域地址、详细地址栏 -->
+	<ShowCoordinate>1</ShowCoordinate><!-- 是否显示经纬栏 -->
+	<ShowToolbar>BCD</ShowToolbar><!-- 为空表示隐藏 AE为必须 自由组合按钮如：CBD -->
+	<SearchRange>1</SearchRange><!-- 搜索范围:"1":当前城市 "市级名":某城市或区域 -->
+	<KeyWord></KeyWord><!-- 搜索关键字 为空时不搜索-->
+	<jingDu>116.644116</jingDu><!-- 初始经度 并定位到该地存储地区 -->
+	<weiDu>39.949212</weiDu><!-- 初始纬度 -->
+</CTRLmap>

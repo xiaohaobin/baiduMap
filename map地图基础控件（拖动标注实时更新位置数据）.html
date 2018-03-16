@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!--手机显示正常的声明-->
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<title>地图控件</title>
+		<style type="text/css">
+			html {
+				height: 100%
+			}
+			
+			body {
+				height: 100%;
+				margin: 0px;
+				padding: 0px
+			}
+			
+			#allmap {
+				height: 100%
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<input type="text" id="suggestId">
+		<!---放置地图数据------>
+		<input type="text" id='zuobiao'>
+		<!---放置坐标数据------>
+		<div id="allmap"></div>
+		
+		<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+		<script type="text/javascript">
+			var map = new BMap.Map("allmap");
+			map.enableScrollWheelZoom(true); //默认关闭鼠标缩放。重新设置true
+
+			var point = new BMap.Point(116.417, 39.809);
+			map.centerAndZoom(point, 12); //定中心
+
+			var ac = new BMap.Autocomplete( //建立一个自动完成的对象
+				{
+					"input": "suggestId",
+					"location": map
+				});
+			var point = new BMap.Point(116.417, 39.809);
+			map.centerAndZoom(point, 14);
+			var geoc = new BMap.Geocoder();
+			var marker = new BMap.Marker(point); // 创建标注
+			map.addOverlay(marker); // 将标注添加到地图中
+			console.log(marker);
+			marker.enableDragging(); //设置可拖拽
+			marker.addEventListener("dragend", function(e) { //拖动事件 
+				var pt = e.point;
+				var dizhi;
+				geoc.getLocation(pt, function(rs) {
+					var addComp = rs.addressComponents;
+					dizhi = addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+					document.getElementById('suggestId').value = dizhi; //更新地址数据
+					var content = dizhi + "<br/><br/>经度：" + e.point.lng + "<br/>纬度：" + e.point.lat;
+					var infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + content + "</p>");
+					marker.openInfoWindow(infoWindow, map.getCenter()); //将经纬度信息显示在提示框内
+				});
+
+				document.getElementById("zuobiao").value = e.point.lng + ", " + e.point.lat; //打印拖动结束坐标  
+
+			});
+
+			//监听地图点击事件，获取点击的点经纬度
+			map.addEventListener('click', function(e) {
+				var newOne = new BMap.Point(e.point.lng + "," + e.point.lat);
+				console.log(e.point.lng + "," + e.point.lat);
+				//		        map.openInfoWindow(BMap.InfoWindow,newOne);
+			});
+
+			
+		</script>
+	</body>
+
+</html>

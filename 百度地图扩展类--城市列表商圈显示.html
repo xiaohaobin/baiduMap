@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!--手机显示正常的声明-->
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<title>地图控件</title>
+		<style type="text/css">
+			html {
+				height: 100%
+			}
+			
+			body {
+				height: 100%;
+				margin: 0px;
+				padding: 0px
+			}
+			
+			#allmap {
+				height: 100%
+			}
+			
+			#container {
+				font-size: 12px;
+				margin: 5px 0;
+			}
+		</style>
+
+	</head>
+
+	<body>
+
+		
+
+		<!--级联城市列表容器-->
+		<div id="container"></div>
+
+		<div id="allmap"></div>
+		<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+		<!--<script type="text/javascript" src="http://api.map.baidu.com/library/CityList/1.4/src/CityList_min.js"></script>-->
+		<script src="js/BMapLib_CityList.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript">
+			// 百度地图API功能
+			var map = new BMap.Map("allmap");
+			var point = new BMap.Point(116.404, 39.915);
+			map.centerAndZoom(point, 15);
+
+			//实例化城市列表类
+			var cityList = new BMapLib.CityList({
+				container: 'container',
+				map: map
+			});
+
+			///传商圈字段，获取商圈所属上级区域和商圈类型
+			cityList.getBusiness('中关村', function(json) {
+				console.log(json);
+			});
+
+			//点击选择城市下拉框的事件监听
+			cityList.addEventListener('cityclick', function(e) {
+				console.log(e);
+				//传区域编码，获取区域对象
+				cityList.getSubAreaList(131, function(json) {
+					console.log(json);
+				});
+
+			});
+		</script>
+	</body>
+
+</html>

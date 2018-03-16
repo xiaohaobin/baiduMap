@@ -1,0 +1,61 @@
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.2"></script>
+	</head>
+
+	<body>
+		<h2>拉框搜索关键词</h2>
+		<div style="width:100%;height:340px;border:1px solid gray" id="container">
+		</div>
+		<div>
+			<input type="text" name="keyWord" id="keyWord" value="足浴" placeholder="请输入关键词"/>
+			<input type="button" value="地图区域拉框搜索" onclick="searchKeyword();" />
+			<input type="button" value="关闭搜索" onclick="pullBox.close();" />
+			
+		</div>
+		
+		
+		<div id="result" style="width:520px;"></div>
+		<!--<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInRectangle/1.2/src/SearchInRectangle_min.js"></script>-->
+		<script src="js/SearchInRectangle_min.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript">
+			var map = new BMap.Map("container");
+			map.centerAndZoom(new BMap.Point(116.404, 39.915), 12);
+			var keyword = "足浴",
+				pullBox;
+			
+			var options = {
+				renderOptions: {
+					map: map,
+					strokeWeight: 2,
+					strokeColor: "red",
+					opacity: 0.7,
+					followText: "拖拽鼠标搜索" + keyword + "",
+					autoClose: false,
+					autoViewport: false,
+					panel: "result",
+					selectFirstResult: true
+				}
+			};
+			
+				
+			
+			
+			
+			//地图区域拉框搜索
+			function searchKeyword(){
+				keyword = document.getElementById("keyWord").value;
+				options.renderOptions.followText = "拖拽鼠标搜索" + keyword + "";
+				
+				pullBox = new BMapLib.SearchInRectangle(map, keyword, options);
+				pullBox.setFillColor("white");
+				pullBox.setLineStyle("dashed");
+				pullBox.open();
+			}
+		</script>
+	</body>
+
+</html>

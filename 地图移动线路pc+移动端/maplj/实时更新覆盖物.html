@@ -1,0 +1,138 @@
+﻿<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+		<meta name="renderer" content="webkit">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui, maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		<title>仿饿了么送餐地图</title>
+		<script src="http://api.map.baidu.com/api?v=2.0&ak=A1LU7iHS0avqQwPLAxbhKn0UYSQCuRVH"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+		<!--<style type="text/css">
+			#map{
+				width: 1000px;
+				height: 1500px;
+				
+			}
+		</style>-->
+	</head>
+
+	<body>
+		<div id="map"></div>
+	</body>
+	<script>
+			
+	//随机生成范围数字：min最小数字，max最大数字（打印数字为最小到最大的范围）
+	function randNum(min,max){
+	    var num = Math.floor(Math.random()*(max-min)+min);
+	    return num;
+	}
+		var map = new BMap.Map("map"); //创建地图实例
+		//创建起点
+		var pt_start = new BMap.Point(117.270591, 23.812975);
+		var startIcon = new BMap.Icon("img/start.png", new BMap.Size(36, 36));
+		var markerStrat = new BMap.Marker(pt_start, {
+			icon: startIcon
+		}); // 创建标注
+		map.addOverlay(markerStrat); // 将标注添加到地图中
+		//创建终点
+		var pt_end = new BMap.Point(116.885031, 23.689196) //new BMap.Point(115.559445,22.859811);
+		var endIcon = new BMap.Icon("img/end.png", new BMap.Size(36, 36));
+		var markerEnd = new BMap.Marker(pt_end, {
+			icon: endIcon
+		}); // 创建标注
+		map.addOverlay(markerEnd); // 将标注添加到地图中
+
+		map.centerAndZoom(pt_start, 15);
+		map.enableScrollWheelZoom();//能够滚动
+
+		//创建司机
+		var pt;
+		var marker2;
+		var index = 0;
+		var points = [
+			new BMap.Point(117.270591, 23.812975),
+			new BMap.Point(117.227819, 23.814327),
+			new BMap.Point(117.171452, 23.800036),
+			new BMap.Point(117.132368, 23.791609),
+			new BMap.Point(117.076919, 23.764658),
+			new BMap.Point(117.024827, 23.754510),
+			new BMap.Point(116.981047, 23.739533),
+			new BMap.Point(116.939091, 23.717617),
+			new BMap.Point(116.900199, 23.699399),
+			new BMap.Point(116.885031, 23.689196),
+			new BMap.Point(116.874584,23.679668), 
+			 new BMap.Point(116.811841,23.626940), 
+			 new BMap.Point(116.759632,23.604713), 
+			 new BMap.Point(116.725061,23.587160), 
+			 new BMap.Point(116.651402,23.566650), 
+			 new BMap.Point(116.595323,23.545934), 
+			 new BMap.Point(116.565463,23.533553), 
+			 new BMap.Point(116.552337,23.519046), 
+			 new BMap.Point(116.544596,23.508704), 
+			 new BMap.Point(116.537630,23.464337), 
+			 new BMap.Point(116.528264,23.443634), 
+			 new BMap.Point(116.518571,23.425543), 
+			 new BMap.Point(116.502256,23.414608), 
+			 new BMap.Point(116.429954,23.388459), 
+			 new BMap.Point(116.388039,23.368854), 
+			 new BMap.Point(116.352537,23.347284), 
+			 new BMap.Point(116.281605,23.327247), 
+			 new BMap.Point(116.227800,23.293717), 
+			 new BMap.Point(116.214108,23.280499), 
+			 new BMap.Point(116.180527,23.247139), 
+			 new BMap.Point(116.107918,23.134458), 
+			 new BMap.Point(116.040802,23.102683), 
+			 new BMap.Point(116.005375,23.071510), 
+			 new BMap.Point(115.979189,23.052335), 
+			 new BMap.Point(115.874687,23.017842), 
+			 new BMap.Point(115.732058,22.949055), 
+			 new BMap.Point(115.650940,22.903134), 
+			 new BMap.Point(115.559445,22.859811), 
+		]; //设置坐标数组
+		var oTime = setInterval(function() {
+			createp(points);
+			distance = Math.ceil(map.getDistance(pt, pt_end));//实时获取覆盖物距离终点的距离
+//			if(index + 1 < points.length) {
+//				index++;
+//			} else {
+//				index = points.length - 1;
+//			}
+//			//添加覆盖物实时文字标签
+			var label = new BMap.Label("目标距离终点（探霸）" + distance + '米', {
+				offset: new BMap.Size(0, -30)
+			});
+			label.setStyle({
+				fontSize: "0.6em",
+				border: 0,
+				fontFamily: "微软雅黑",
+				"border-radius": "20px",
+				padding: "0.3em 0.4em"
+			});
+			marker2.setLabel(label);
+//			
+			map.centerAndZoom(pt, 15);
+////			覆盖物到达终点之后，清除定时器，并且画出行走轨迹
+		}, 3500);
+
+		//在地图上画覆盖物
+		function createp(points) {
+			map.removeOverlay(marker2)
+			pt = points[randNum(0,36)];
+			console.log(pt);
+			var myIcon = new BMap.Icon("img/icon.png", new BMap.Size(36, 36), { //小车图片
+				//offset: new BMap.Size(0, -5),    //相当于CSS精灵
+				//imageOffset: new BMap.Size(-20, 0)    //图片的偏移量。为了是图片底部中心对准坐标点。
+			});
+			marker2 = new BMap.Marker(pt, {
+				icon: myIcon
+			}); // 创建标注			
+			map.addOverlay(marker2); // 将标注添加到地图中*/
+		}
+	</script>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>地图平移</title>
+		<style type="text/css">
+			#allmap{
+				height: 1000px;
+				width: 1000px;
+			}
+		</style>
+		
+	</head>
+
+	<body>
+		<div id="allmap"></div>
+		<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+		<script type="text/javascript">
+			var map = new BMap.Map("allmap");    
+			var point = new BMap.Point(116.404, 39.915);    
+			map.centerAndZoom(point, 15);  
+			map.enableScrollWheelZoom(true);//默认关闭鼠标缩放。重新设置true
+			window.setTimeout(function(){  
+				//panTo()方法将让地图平滑移动至新中心点，如果移动距离超过了当前地图区域大小，则地图会直跳到该点。 ,setCenter()直接跳过去
+			    map.panTo(new BMap.Point(116.409, 39.918));   
+//			    map.setCenter(new BMap.Point(116.409, 39.918)); 
+//			    map.zoomTo(new BMap.Point(116.409, 39.918)); 
+			}, 2000);
+			
+			
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!--手机显示正常的声明-->
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<!--加载鼠标绘制工具css-->
+		<link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+		<title>地图控件</title>
+		<style type="text/css">
+			html {
+				height: 100%
+			}
+			
+			body {
+				height: 100%;
+				margin: 0px;
+				padding: 0px
+			}
+			
+			#allmap {
+				height: 100%
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div id="result">
+			<input type="button" value="获取绘制的覆盖物个数" onclick="alert(overlays.length)" />
+			<input type="button" value="清除所有覆盖物" onclick="clearAll()" />
+			<input type="button" name="" id="" value="关闭绘制状态" onclick="closeDrawState()"/>
+			<select name="" id="markerType" onchange="cutType(this.value)">
+				<option value="0">探霸标示</option>
+				<option value="1">目标嫌疑人标示</option>
+				<option value="2">警车标示</option>
+			</select>
+		</div>
+		<div id="allmap"></div>
+		
+		<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+		<!--加载鼠标绘制工具js-->
+		<script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+		<!--<script src="js/BMapLib_DrawingManager.js" type="text/javascript" charset="utf-8"></script>-->
+		<script type="text/javascript">
+			// 百度地图API功能
+			var map = new BMap.Map('allmap');
+			var poi = new BMap.Point(116.307852, 40.057031);
+			map.centerAndZoom(poi, 16); //设置中心点坐标和地图级别
+			map.enableScrollWheelZoom(); //启用鼠标滚动对地图放大缩小
+			
+			
+			
+			
+			var infoWindow;
+			var markerInfo = {
+				"name":"探霸标示",
+				"id":"0",
+				"msg":"主要探测目标设备等终端",
+				"time":"2017-12-12"
+			};
+			
+			//鼠标绘制完成回调方法   获取各个点的经纬度
+			var overlays = [];
+			var overlaycomplete = function(e,j,k) {
+				overlays.push(e.overlay);
+//				console.log(typeof e.overlay.getPath);
+				if(typeof e.overlay.getPath == "function"){//如果不是画标注点，则返回function，否则underfind
+					var path = e.overlay.getPath(); //Array<Point> 返回多边型的点数组
+					console.log(path);
+					for(var i = 0; i < path.length; i++) {
+						console.log("lng:" + path[i].lng + "\n lat:" + path[i].lat);
+					}
+				}
+				console.log(options.markerOptions.icon);
+				console.log(drawingManager.getDrawingMode());//获取绘制的类型
+				
+				console.log(j.overlay);//实例化之后的覆盖物对象
+				//所有覆盖物调用右键菜单
+				menu(j.overlay);
+			};
+//			var endIcon = new BMap.Icon("img/tanba.gif", new BMap.Size(36, 36));
+			var styleOptions = {
+				strokeColor: "red", //边线颜色。
+				fillColor: "red", //填充颜色。当参数为空时，圆形将没有填充效果。
+				strokeWeight: 3, //边线的宽度，以像素为单位。
+				strokeOpacity: 0.8, //边线透明度，取值范围0 - 1。
+				fillOpacity: 0.6, //填充的透明度，取值范围0 - 1。
+				strokeStyle: 'solid' //边线的样式，solid或dashed。
+			}
+			
+			
+			//实例化鼠标绘制工具配置
+			var options = {
+				isOpen: false, //是否开启绘制模式
+				enableDrawingTool: true, //是否显示工具栏
+				drawingMode: BMAP_DRAWING_POLYGON, //绘制模式  多边形
+				drawingToolOptions: {
+					anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+					offset: new BMap.Size(5, 5), //偏离值
+					drawingModes: [
+						BMAP_DRAWING_POLYGON,//多边形
+						BMAP_DRAWING_MARKER,//圆点
+						BMAP_DRAWING_CIRCLE,//画圆
+						BMAP_DRAWING_POLYLINE,//画线
+						BMAP_DRAWING_RECTANGLE//画矩形
+					]
+				},
+				markerOptions: {
+					icon:new BMap.Icon("img/tanba.gif", new BMap.Size(36, 36))
+				},
+				polygonOptions: styleOptions, //多边形的样式
+				circleOptions: styleOptions //圆的样式
+			};
+			//实例化鼠标绘制工具
+			var drawingManager = new BMapLib.DrawingManager(map,options);
+
+			//添加鼠标绘制工具监听事件，用于获取绘制结果
+			drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+			
+//			//绘制点完成后，派发的事件接口
+//			drawingManager.addEventListener('markercomplete', function(e,i,m){
+//				console.log(e.point.lng,e.point.lat);				
+////				p = new BMap.Point(e.point.lng,e.point.lat);
+////				infoWin(markerInfo,p);//信息窗口
+//				//调用右键菜单
+//				menu(i);
+//				console.log(e,i,m);
+//			});
+//			
+//			//绘制多边形完成后，派发的事件接口
+//			drawingManager.addEventListener('polygoncomplete', function(e,i,m){
+//				//调用右键菜单
+//				menu(i);
+//				console.log(e,i,m);
+//			});
+			
+			
+			//信息窗口函数
+			function infoWin(markerInfo,point){
+				// 创建信息窗口对象
+				var sHtml = "";
+				for(var k in markerInfo){
+					sHtml += '<div>'+markerInfo[k]+'</div>'; 
+				}
+							
+				infoWindow = new BMap.InfoWindow(sHtml, {
+					width : 200,     // 信息窗口宽度
+				    height: 200,     // 信息窗口高度
+				    title : "信息" , // 信息窗口标题
+				});  
+				map.openInfoWindow(infoWindow,point); //开启信息窗口
+			}
+			
+			//清除覆盖物和经纬数组
+			function clearAll() {
+				for(var i = 0; i < overlays.length; i++) {
+					map.removeOverlay(overlays[i]);
+				}
+				overlays.length = 0
+			}
+			
+			//标注定义右键菜单
+			function menu(marker){
+				var markerMenu = new BMap.ContextMenu();
+				markerMenu.addItem(
+					new BMap.MenuItem('删除',function(e,k,m){
+						map.removeOverlay(m);
+					})
+				);
+				marker.addContextMenu(markerMenu);
+				
+			}
+			
+			//关闭绘制状态
+			function closeDrawState(){
+				drawingManager.close();
+			}
+			//切换类型
+			function cutType(v){
+				if(v == "0"){//探霸标示
+					options.markerOptions.icon = new BMap.Icon("img/tanba.gif", new BMap.Size(36, 36));
+				} 
+				if(v == "1"){//目标嫌疑人
+					delete options.markerOptions.icon;
+				} 
+				if(v == "2"){//目标嫌疑人
+					options.markerOptions.icon = new BMap.Icon("img/car.png", new BMap.Size(52, 26));
+				} 
+			}
+		</script>
+	</body>
+
+</html>

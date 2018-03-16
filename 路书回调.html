@@ -1,0 +1,130 @@
+    <!DOCTYPE html>  
+    <html>  
+    <head>  
+    <meta charset="UTF-8">  
+    <title>路书回调测试</title>  
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=39b5eb8bb91adccfa6487135d960a1e8"></script>  
+       
+   <script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+       
+      
+    <style type="text/css">  
+        html{  
+            height: 100%;  
+            width: 100%;  
+            overflow: hidden;  
+              
+        }  
+          
+         body {  
+        margin:0px;  
+        padding:0px;  
+        border:0px;  
+    }  
+          
+        .container {  
+        margin:0px;  
+        padding:0px;  
+        width:100%;  
+        height:100%;  
+        position:absolute;  
+    }  
+    .map {  
+        width:100%;  
+        height:100%;  
+        background:#d5e6f5;  
+        position:absolute;  
+        float:left;  
+    }  
+    .add_btn {  
+        text-align:center;  
+        position:absolute;  
+        bottom: 5px;  
+        left: 350px;  
+        z-index: 11;  
+    }  
+    </style>  
+      
+    </head>  
+    <body>  
+          
+        <div class="container">  
+            <div id="map" class="map">  
+              
+            </div>  
+            <div class="add_btn">  
+                <input type="button" title="" value="路书" onclick="lushu_run()">  
+            </div>  
+        </div>  
+           
+          
+        <script type="text/javascript">  
+              
+            var map ;   
+            var lushu;  
+            window.onload = function() {  
+                map =  new BMap.Map('map');    // 创建Map实例  
+                   
+                var point = new BMap.Point(116.404, 39.915);//, 11  
+                map.centerAndZoom(point, 11);  
+                    
+                map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放  
+                  
+            }  
+                
+            function lushu_run() {  
+      
+                if (lushu) {  
+                    alert("请等待当前路书跑完.");   
+                    return;  
+                }  
+      
+                var myIcon = new BMap.Icon(  
+                        "http://sandbox.runjs.cn/uploads/rs/101/wmbvrxnx/kache.png",  
+                        new BMap.Size(37, 25), {  
+                            imageOffset : new BMap.Size(0, 0)  
+                        });//卡车  
+      
+                var driving = new BMap.DrivingRoute(map); //驾车实例  
+                //路径搜索后开始路书回放路径  
+                driving.setSearchCompleteCallback(function(res) {  
+      
+                    var arrPois = res.getPlan(0).getRoute(0).getPath();  
+      
+                    //基于返回的路径规划画出来路径  
+                    var polyline = new BMap.Polyline(arrPois, {  
+                        strokeColor : '#111'  
+                    })  
+                    map.addOverlay(polyline);  
+      
+                    //地图视野设置到当前的路径  
+                    map.setViewport(arrPois);  
+      
+                    lushu = new BMapLib.LuShu(map, arrPois, {  
+                        defaultContent : "",//   
+                        autoView : true,//是否开启自动视野调整，如果开启那么路书在运动过程中会根据视野自动调整  
+                        icon : myIcon,  
+                        speed : 500, //速度设置  
+                        enableRotation : true,//是否设置marker随着道路的走向进行旋转  
+                        landmarkPois : []  
+                    });  
+      
+                    //路书启动,参数为一个函数  
+                    lushu.start(function() {  
+                        console.log("路书结束的回调开始调用了");  
+                        lushu = null; //当前路书置空  
+                        map.removeOverlay(polyline); //清理掉路书回放中提前画的路径  
+                    });  
+      
+                });  
+                var start = new BMap.Point(116.406, 39.925);//, 11  
+      
+                var end = new BMap.Point(116.402, 39.923);//, 11  
+      
+                driving.search(start, end);  
+      
+            }  
+        </script>  
+      
+    </body>  
+    </html>  

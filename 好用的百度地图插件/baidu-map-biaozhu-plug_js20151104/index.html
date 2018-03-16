@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<script type="text/javascript" src="bdMap.js"></script>
+<body>
+
+标注模式
+<div id="map2" style="height:300px;width:400px;border:1px solid #bcbcbc;"></div>
+<script type="text/javascript">ShowMap("map2",{city:'石家庄',addr:'和平西路556号',title:'吊儿',lawfirm:'XXX公司',tel:'1362380952x',mapx:'',pic:'http://www.shalisoft.com/images/100.jpg',ismove:'1',piobj:'nxp'});</script>
+新坐标<input id="nxp" type="text">
+
+<br/><br/>
+按地址显示
+<div id="map" style="height:300px;width:400px;border:1px solid #bcbcbc;"></div>
+<script type="text/javascript">ShowMap("map",{city:'石家庄',addr:'和平西路556号',title:'吊儿',lawfirm:'XXX公司',tel:'1362380952x',mapx:'',pic:'http://www.shalisoft.com/images/100.jpg',ismove:'0',piobj:'nxp'});</script>
+
+<br/><br/>
+按坐标mapx显示
+<div id="map3" style="height:300px;width:400px;border:1px solid #bcbcbc;"></div>
+<script type="text/javascript">ShowMap("map3",{title:'吊儿',lawfirm:'XXX公司',tel:'1362380952x',mapx:'113.63156,34.83794',pic:'http://www.shalisoft.com/images/100.jpg',ismove:'0',piobj:'nxp'});</script>
+
+<br/><br/>
+按城市显示
+<div id="map4" style="height:300px;width:400px;border:1px solid #bcbcbc;"></div>
+<script type="text/javascript">ShowMap("map4",{city:'石家庄市长安区',title:'吊儿',lawfirm:'XXX公司',tel:'1362380952x',pic:'http://www.shalisoft.com/images/100.jpg',ismove:'0',piobj:'nxp'});</script>
+
+<br/><br/>
+按IP定位显示
+<div id="map5" style="height:300px;width:400px;border:1px solid #bcbcbc;"></div>
+<script type="text/javascript">ShowMap("map5",{title:'吊儿',lawfirm:'XXX公司',tel:'1362380952x',pic:'http://www.shalisoft.com/images/100.jpg',ismove:'0',piobj:'nxp'});</script>
+
+<br/><br/>
+使用说明：<br/>
+1、 在head引用bdMap.js<br/>
+2、 设置DIV容器&#60;div id="map" style="height:400px;width:600px;border:1px solid #bcbcbc;"&#62;&#60;/div&#62;<br/>
+3、 JS执行ShowMap("map",{city:'郑州',addr:'经三路鑫苑路',title:'吊儿',lawfirm:'XXX公司',tel:'1362380952x',pic:'http://www.shalisoft.com/images/100.jpg',ismove:'0'});
+<br/><br/>
+ShowMap参数说明：<br/>
+&nbsp; objname: DIV容器名称。<br/>
+&nbsp; options: 属性定义。说明如下：<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;city: 默认定位的城市<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addr: 标注地址。<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title: 窗口标题<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lawfirm: 公司名称<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tel: 联系电话<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user: 主任，（可以在bdMap里自定义自己的显示名字）<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mapx: 标注地图的地址<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pic: 显示照片<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ismove: 是否可以拖动标注点（设置标注时会用的着）<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;piobj: 接收拖动坐标的表单ID（设置标注时用于接受拖动后的坐标）<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zoom: 地图放大等级 默认14<br/>
+
+<br/>
+<font color=red>注意：</font>标注坐标显示的先后顺序：先按mapx ，mapx为空时按addr，addr为空时按city，city为空时按IP定位
+
+
+<br/><br/>
+getBDAddress 根据浏览器获取地址：(需要浏览器支持html5)<br/>
+&nbsp; callBackFun: 获取回调函数<br/>
+&nbsp; spStr: 返回信息的分隔符，默认空。可以设置为,号。返回格式：省,市,区,街,门牌<br/>
+
+<script>
+function setAdd(v){
+	document.getElementById("show").innerHTML = v;
+}
+getBDAddress(setAdd);
+</script>
+演示：<span id="show"></span>
+</body>
+</html>

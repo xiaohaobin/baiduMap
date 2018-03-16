@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!--手机显示正常的声明-->
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<title>地图控件</title>
+		<style type="text/css">
+			html {
+				height: 100%
+			}
+			
+			body {
+				height: 100%;
+				margin: 0px;
+				padding: 0px
+			}
+			
+			#allmap {
+				height: 100%
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div id="allmap"></div>
+		<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+		<script type="text/javascript">
+			var map = new BMap.Map("allmap");
+			map.enableScrollWheelZoom(true); //默认关闭鼠标缩放。重新设置true
+
+			var point = new BMap.Point(116.417854, 39.921988);
+			map.centerAndZoom(point, 25); //定中心
+
+			// 创建标注，将标注添加到地图中
+			var marker = new BMap.Marker(point);
+			map.addOverlay(marker);
+
+			//			map.addControl(new BMap.ScaleControl()); //比例尺（左下角）
+			//			map.addControl(new BMap.MapTypeControl()); //地图类型控件（右上角）
+			//			map.addControl(new BMap.CopyrightControl());
+			//			map.setCurrentCity("北京"); // 仅当设置城市信息时，MapTypeControl的切换功能才能可用
+			/*
+			 鹰眼，缩略地图
+			OverviewMapControlOptions配置信息：
+            anchor:控件的停靠位置。(enum ControlAnchor)
+            offset:控件的偏移值。(Size)
+            size:缩略地图控件的大小。(Size)
+            isOpen:缩略地图添加到地图后的开合状态，默认为关闭。(Boolean)
+			 * */
+			var overviewMapControl = new BMap.OverviewMapControl({
+				anchor: BMAP_ANCHOR_TOP_LEFT,
+				offset: new BMap.Size(10, 10),
+				isOpen: true,
+				size: new BMap.Size(400, 200)
+			});
+			//缩略地图开合状态发生变化后触发此事件
+			overviewMapControl.addEventListener("viewchanged", function(e) {
+				console.log(e);
+			});
+			//缩略地图开合状态发生变化过程中触发此事件
+			overviewMapControl.addEventListener("viewchanging", function(e) {
+				console.log(e);
+			});
+			map.addControl(overviewMapControl);
+
+			/*
+			 比例尺,比例尺比例和地图级别有关
+			 * */
+			var scaleControl = new BMap.ScaleControl({
+				anchor: BMAP_ANCHOR_TOP_RIGHT,
+				offset: new BMap.Size(10, 10),
+			});
+			map.addControl(scaleControl);
+
+			/*
+			  版权控件
+			   addCopyright(copyright:Copyright):添加版权信息。
+		        removeCopyright(id):移除版权信息。
+		        getCopyright(id):返回单个版权信息。(Copyright)
+		        getCopyrightCollection():返回版权信息列表。(Array<Copyright>)
+			  * */
+			var copyrightControl = new BMap.CopyrightControl({
+				anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
+				offset: new BMap.Size(10, 10),
+			});
+			var cr = new BMap.Copyright();
+			cr.id = 000221012201;
+			cr.content = "xhb测试的版权信息";
+			var b = new BMap.Bounds(new BMap.Point(1, 1), new BMap.Point(150, 150));
+			cr.bounds = b;
+			copyrightControl.addCopyright(cr);
+			map.addControl(copyrightControl);
+
+			var cr1 = copyrightControl.getCopyright(000221012201);
+			console.log(cr1.id + "-->" + cr1.content + "-->")
+		</script>
+	</body>
+
+</html>

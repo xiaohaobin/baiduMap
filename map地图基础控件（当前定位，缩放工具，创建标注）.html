@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!--手机显示正常的声明-->
+    	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<title>地图控件</title>
+		<style type="text/css">
+			html {
+				height: 100%
+			}
+			
+			body {
+				height: 100%;
+				margin: 0px;
+				padding: 0px
+			}
+			
+			#allmap {
+				height: 100%
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div id="allmap"></div>
+		<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+		<script type="text/javascript">
+			var map = new BMap.Map("allmap");
+			map.enableScrollWheelZoom(true); //默认关闭鼠标缩放。重新设置true
+			
+			var point = new BMap.Point(116.417854,39.921988);
+			map.centerAndZoom(point, 15);//定中心
+			
+			
+			 // 创建标注，将标注添加到地图中
+		    var marker = new BMap.Marker(point);  
+		    map.addOverlay(marker);              
+		   
+		   
+			// 创建信息窗口对象
+			var infoWindow = new BMap.InfoWindow("地址：北京市东城区王府井大街88号乐天银泰百货八层", {
+				width : 200,     // 信息窗口宽度
+			    height: 100,     // 信息窗口高度
+			    title : "海底捞王府井店" , // 信息窗口标题
+			    enableMessage:true,//设置允许信息窗发送短息
+			    message:"亲耐滴，晚上一起吃个饭吧？戳下面的链接看下地址喔~"
+			});  
+			
+			//监听标注点击事件
+		    marker.addEventListener("click", function(){          
+		        map.openInfoWindow(infoWindow,point); //开启信息窗口
+		    });
+		    //监听地图点击事件，获取点击的点经纬度
+		    map.addEventListener('click',function(e){
+		        var newOne = new BMap.Point(e.point.lng+","+e.point.lat);
+		        console.log(e.point.lng+","+e.point.lat);
+//		        map.openInfoWindow(BMap.InfoWindow,newOne);
+		    });
+			
+			
+			/*
+			 * 缩放工具栏
+			anchor:控件的停靠位置。(enum ControlAnchor)
+		    offset:控件的水平偏移值。(Size)
+		    type:平移缩放控件的类型。(enum NavigationControlType)
+		    showZoomInfo:是否显示级别提示信息。(自 1.1 新增)(Boolean)
+		    enableGeolocation:控件是否集成定位功能，默认为false。(自 2.0 新增)(Boolean)
+			 * */
+			var navigationControl = new BMap.NavigationControl({
+				anchor:BMAP_ANCHOR_BOTTOM_RIGHT,
+		        offset:new BMap.Size(10,150),
+		        type:BMAP_NAVIGATION_CONTROL_LARGE,
+		        showZoomInfo:true,
+		        enableGeolocation:true
+			});
+			map.addControl(navigationControl); 
+//			console.log(navigationControl.getType());//返回平移缩放控件的类型
+
+
+				/*
+			 * 负责进行地图定位的控件
+			  anchor:控件的停靠位置，默认定位到地图的右下角。(enum ControlAnchor)
+			    offset:控件的水平偏移值。(Size)
+			    showAddressBar:是否显示定位信息面板。默认显示定位信息面板。(Boolean)
+			    enableAutoLocation:添加控件时是否进行定位。默认添加控件时不进行定位。(Boolean)
+			    locationIcon:可自定义定位中心点的Icon样式。(Icon)
+			    注意，Icon类是在覆盖物里面有介绍，这里就先不介绍了。后面括号代表的是类型，方法的话代表的是返回类型，下同。
+			 * */
+			//负责进行地图定位的控件
+			var geolocationControl = new BMap.GeolocationControl({
+				anchor:BMAP_ANCHOR_BOTTOM_LEFT,
+	            showAddressBar:true,
+	            enableGeolocation:true
+			});			
+			//定位成功事件
+			geolocationControl.addEventListener("locationSuccess", function(e) {
+				// 定位成功事件
+				console.log(e);
+			    var address = '';
+			    address += e.addressComponent.province;
+			    address += e.addressComponent.city;
+			    address += e.addressComponent.district;
+			    address += e.addressComponent.street;
+			    address += e.addressComponent.streetNumber;
+			    alert("当前定位地址为：" + address);
+//			    console.log(geolocationControl.getAddressComponent());//：返回当前的定位信息。
+			});
+			//定位失败事件
+			geolocationControl.addEventListener("locationError", function(e) {
+				alert("定位失败："+e.message);
+			});
+			map.addControl(geolocationControl);
+			//实例化后定位控件，就直接加载控件
+//			geolocationControl.location();
+			
+			
+
+
+			
+//			map.addControl(new BMap.ScaleControl()); //比例尺（左下角）
+//			map.addControl(new BMap.MapTypeControl()); //地图类型控件（右上角）
+//			map.addControl(new BMap.CopyrightControl());
+//			map.setCurrentCity("北京"); // 仅当设置城市信息时，MapTypeControl的切换功能才能可用
+			/*
+			 鹰眼，缩略地图
+			 * */
+//			var overviewMapControl = new BMap.OverviewMapControl();
+//			//缩略地图开合状态发生变化后触发此事件
+//			overviewMapControl.addEventListener("viewchanged",function(e){
+//				console.log(e);
+//			});
+//			//缩略地图开合状态发生变化过程中触发此事件
+//			overviewMapControl.addEventListener("viewchanging",function(e){
+//				console.log(e);
+//			});
+//			map.addControl(overviewMapControl); 
+			
+		</script>
+	</body>
+
+</html>

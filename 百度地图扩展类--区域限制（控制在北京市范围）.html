@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<style type="text/css">
+			body,
+			html,
+			#allmap {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+				margin: 0;
+				font-family: "微软雅黑";
+			}
+		</style>
+		<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>
+		<title>地图展示</title>
+	</head>
+
+	<body>
+		<div id="allmap"></div>
+	</body>
+
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	//var map = new BMap.Map("allmap");    // 创建Map实例
+	//map.centerAndZoom(new BMap.Point(116.404, 39.915), 15);  // 初始化地图,设置中心点坐标和地图级别
+	var map = new BMap.Map("allmap");
+	map.centerAndZoom(new BMap.Point(116.404, 39.915), 13);
+	map.enableScrollWheelZoom(); // 允许滚动
+
+	map.addControl(new BMap.MapTypeControl()); //添加地图类型控件
+
+	//添加地图平移缩放控件
+	map.addControl(new BMap.NavigationControl());
+
+	//控制地图的最大和最小缩放级别
+	map.setMinZoom(16);
+	map.setMaxZoom(18);
+	map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+
+	var strictBounds = new Bmap.Bounds(new BMap.Point(116.3645, 39.9673), new BMap.Point(116.3646, 39.9685)); //sw西南,ne东北
+	var strictBounds = map.getBounds();
+	map.addEventListener("dragend", function() {
+		if(strictBounds.containsPoint(map.getCenter())) return;
+		var c = map.getCenter();
+		x = c.lng,
+			y = c.lat,
+			maxX = strictBounds.getNorthEast().lng,
+			maxY = strictBounds.getNorthEast().lat,
+			minX = strictBounds.getSouthWest().lng,
+			minY = strictBounds.getSouthWest().lat;
+		if(x < minX) x = minX;
+		if(x > maxX) x = maxX;
+		if(y < minY) y = minY;
+		if(y > maxY) y = maxY;
+		map.centerAndZoom(new BMap.Point(x, y), map.getZoom());
+	})
+</script>

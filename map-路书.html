@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>地图路书</title>
+		<style type="text/css">
+			/*#allmap{
+				height: 1000px;
+				width: 1000px;
+			}*/
+			 html{height:100%} 
+
+		      body{height:100%;margin:0px;padding:0px} 
+		
+		      #allmap{height:100%}  
+		</style>
+		
+	</head>
+
+	<body>
+		<div id="allmap"></div>
+		<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+		<script type="text/javascript">
+			var map = new BMap.Map("allmap");    
+			var point = new BMap.Point(116.404, 39.915);    
+			map.centerAndZoom(point, 12);    
+//			window.setTimeout(function(){  
+//				//panTo()方法将让地图平滑移动至新中心点，如果移动距离超过了当前地图区域大小，则地图会直跳到该点。 ,setCenter()直接跳过去
+//			    map.panTo(new BMap.Point(116.409, 39.918));   
+////			    map.setCenter(new BMap.Point(116.409, 39.918)); 
+////			    map.zoomTo(new BMap.Point(116.409, 39.918)); 
+//			}, 2000);
+			
+			var route=[];
+
+		      for(var i=0;i<8;++i){
+		
+		           pt = new BMap.Point(116+Math.random()*1,38+Math.random()*1);
+		
+		           route.push(pt);
+		
+		      }
+			console.log(route);
+		      var pl = new BMap.Polyline(route,{strokeColor:'#F00'});
+		
+		      map.addOverlay(pl);
+		
+		      var lushu = new BMapLib.LuShu(map,route,{
+		
+		           defaultContent:"from a tob.",
+		
+		           speed:4500,
+		
+		           landmarkPois:[
+		           	{lng:route[1].lng,lat:route[1].lat,html:'pausept',pauseTime:2}
+		           ],
+		
+		           autoView:true,
+		
+		           enableRotation:true
+		
+		      });
+		
+		      lushu.start();
+		</script>
+	</body>
+
+</html>

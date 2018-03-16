@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>百度地自定义图环形菜单</title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			body {
+				background: #eee;
+			}
+			
+			.wrap {
+				width: 100%;
+			}
+			
+			.container {
+				width: 80%;
+				height: 600px;
+				margin: 60px auto;
+			}
+		</style>
+		<script src="http://api.map.baidu.com/api?v=2.0&ak=A1LU7iHS0avqQwPLAxbhKn0UYSQCuRVH"></script>
+		<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+		<script src="js/jquery.mapPieMenu.min.js"></script>
+	</head>
+
+	<body>
+		<div class="wrap">
+			<div id="container1" class="container"></div>
+			<div id="container2" class="container"></div>
+			<div id="container3" class="container"></div>
+		</div>
+
+		<script type="text/javascript">
+			var centerPoint = {
+				lng: 116.405562,
+				lat: 39.907851
+			};
+
+			var icon = {
+				url: "img/marker.png",
+				width: 32,
+				height: 44
+			};
+
+			var points = [{
+					lng: 116.415372,
+					lat: 39.917619
+				},
+				{
+					lng: 116.395681,
+					lat: 39.898635
+				},
+				{
+					lng: 116.38253,
+					lat: 39.908709
+				},
+				{
+					lng: 116.429709,
+					lat: 39.910176
+				},
+				{
+					lng: 116.414509,
+					lat: 39.902676,
+					isOpen: true
+				},
+				{
+					lng: 116.392842,
+					lat: 39.919141
+				}
+			];
+
+			var menus = [{
+					id: 1,
+					icon: "img/1.png",
+					title: "目标",
+					href: "http://www.baidu.com",
+					cb: function(ele, data) {
+						alert("id：" + data.id + ", lng：" + data.point.lng + ", lat：" + data.point.lat);
+					}
+				},
+				{
+					id: 2,
+					icon: "img/2.png",
+					title: "购物车",
+					cb: function(ele, data) {
+						alert("id：" + data.id + ", lng：" + data.point.lng + ", lat：" + data.point.lat);
+					}
+				},
+				{
+					id: 3,
+					icon: "img/3.png",
+					title: "主页",
+					cb: function(ele, data) {
+						alert("id：" + data.id + ", lng：" + data.point.lng + ", lat：" + data.point.lat);
+					}
+				},
+				{
+					id: 4,
+					icon: "img/4.png",
+					title: "VIP",
+					cb: function(ele, data) {
+						alert("id：" + data.id + ", lng：" + data.point.lng + ", lat：" + data.point.lat);
+					}
+				},
+				{
+					id: 5,
+					icon: "img/5.png",
+					title: "钱包",
+					cb: function(ele, data) {
+						alert("id：" + data.id + ", lng：" + data.point.lng + ", lat：" + data.point.lat);
+					}
+				},
+				{
+					id: 6,
+					icon: "img/6.png",
+					title: "安全中心",
+					cb: function(ele, data) {
+						alert("id：" + data.id + ", lng：" + data.point.lng + ", lat：" + data.point.lat);
+					}
+				}
+			];
+
+			// 实例化
+
+			new MapPieMenu({
+				id: "container1",
+				centerPoint: centerPoint,
+				points: points,
+				menus: menus
+			});
+
+			new MapPieMenu({
+				id: "container2",
+				centerPoint: centerPoint,
+				points: points,
+				menus: menus,
+				type: "circle",
+				radius: 100,
+				width: 36,
+				icon: icon,
+				close: false,
+				border: "2px dashed green",
+			});
+
+			new MapPieMenu({
+				id: "container3",
+				centerPoint: centerPoint,
+				points: points,
+				menus: menus,
+				type: "semicircle",
+				radius: 90,
+				width: 32,
+				icon: icon,
+				zoom: true,
+				close: false,
+				border: "2px dashed blue",
+			});
+		</script>
+	</body>
+
+</html>

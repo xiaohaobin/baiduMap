@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!--手机显示正常的声明-->
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<title>地图控件</title>
+		<style type="text/css">
+			html {
+				height: 100%
+			}
+			
+			body {
+				height: 100%;
+				margin: 0px;
+				padding: 0px
+			}
+			
+			#allmap {
+				height: 100%
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div id="allmap"></div>
+		<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+		<script type="text/javascript">
+			var map = new BMap.Map("allmap");
+			map.enableScrollWheelZoom(true); //默认关闭鼠标缩放。重新设置true
+
+			var point = new BMap.Point(116.417, 39.909);
+			map.centerAndZoom(point, 18); //定中心
+			
+
+			// 创建标注，将标注添加到地图中
+//			var marker = new BMap.Marker(point);
+//			map.addOverlay(marker);
+			
+			//开始点标注
+			var startIcon = new BMap.Icon("img/start.png", new BMap.Size(36, 36));
+			var startMarker = new BMap.Marker(point, {
+				icon: startIcon
+			});
+			map.addOverlay(startMarker);
+			
+			//结束点标注
+			var endPoint = new BMap.Point(116.427, 39.909);
+			var endIcon = new BMap.Icon("img/end.png", new BMap.Size(36, 36));
+			var endMarker = new BMap.Marker(endPoint, {
+				icon: endIcon
+			});
+			map.addOverlay(endMarker);
+			
+			
+			//监听地图点击事件，获取点击的点经纬度
+			map.addEventListener('click', function(e) {
+				var newOne = new BMap.Point(e.point.lng + "," + e.point.lat);
+				console.log(e.point.lng + "," + e.point.lat);
+				//		        map.openInfoWindow(BMap.InfoWindow,newOne);
+			});
+			
+			//设置曲线显示箭头
+			var sy = new BMap.Symbol(BMap_Symbol_SHAPE_BACKWARD_OPEN_ARROW, {
+			    scale: 0.6,//图标缩放大小
+			    strokeColor:'#fff',//设置矢量图标的线填充颜色
+			    strokeWeight: '2',//设置线宽
+			});
+			var icons = new BMap.IconSequence(sy, '10', '20');
+			
+			var polyLine = [
+				new BMap.Point(116.417, 39.909), 
+				new BMap.Point(116.418, 39.908),
+				new BMap.Point(116.419, 39.909),
+				new BMap.Point(116.420, 39.909), 
+				new BMap.Point(116.421, 39.908),
+				new BMap.Point(116.422, 39.909),
+				
+				new BMap.Point(116.423, 39.908),
+				new BMap.Point(116.424, 39.909),
+				new BMap.Point(116.425, 39.909), 
+				new BMap.Point(116.426, 39.908),
+				new BMap.Point(116.427, 39.909)
+			];
+			console.log(polyLine);
+			
+			//历史轨迹，轨迹
+			var pl = new BMap.Polyline(
+				polyLine, 
+				{
+//					enableEditing: false,//是否启用线编辑，默认为false
+//				   enableClicking: true,//是否响应点击事件，默认为true
+//				   icons:[icons],
+//				   strokeWeight:'15',//折线的宽度，以像素为单位
+//				   strokeOpacity: 0.8,//折线的透明度，取值范围0 - 1
+				   strokeColor:"#18a45b" //折线颜色
+				}
+			);
+			map.addOverlay(pl);
+			
+			//历史轨迹，路书
+			var lushu = new BMapLib.LuShu(
+				map,
+				polyLine,
+				{
+		
+		           defaultContent:"目标",
+		
+		           speed:100,
+		
+		           landmarkPois:[
+		           	{
+		           		lng:polyLine[1].lng,
+		           		lat:polyLine[1].lat,
+		           		html:'pausept',
+		           		pauseTime:1//暂停时间1秒
+		           	}
+		           ],
+		
+		           autoView:true,
+				   icon  : new BMap.Icon('http://developer.baidu.com/map/jsdemo/img/car.png', new BMap.Size(52,26),{anchor : new BMap.Size(27, 13)}),
+		           enableRotation:true
+		
+		     	}
+			);
+		
+		    lushu.start();
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!--手机显示正常的声明-->
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<title>地图控件</title>
+		<style type="text/css">
+			html {
+				height: 100%
+			}
+			
+			body {
+				height: 100%;
+				margin: 0px;
+				padding: 0px
+			}
+			
+			#allmap {
+				height: 100%
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div id="allmap"></div>
+		<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+		<!--<script src="js/InfoBox.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="js/InfoBox_min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var map = new BMap.Map("allmap");
+			map.enableScrollWheelZoom(true); //默认关闭鼠标缩放。重新设置true
+
+			var point = new BMap.Point(116.417854, 39.921988);
+			map.centerAndZoom(point, 15); //定中心
+
+			// 创建标注，将标注添加到地图中
+			var marker = new BMap.Marker(point);
+			map.addOverlay(marker);
+
+			//监听地图点击事件，获取点击的点经纬度
+			map.addEventListener('click', function(e) {
+				var newOne = new BMap.Point(e.point.lng + "," + e.point.lat);
+				console.log(e.point.lng + "," + e.point.lat);
+				//		        map.openInfoWindow(BMap.InfoWindow,newOne);
+			});
+			
+			
+			//自定义信息窗口
+			var infoContent = "<div class='title' style='background:#00f;color:#f00'><div><strong>中海雅园</strong><span class='price'>均价43000</span></div><div class='content' style='background:#00f;color:#f00'><img id='imgDemo' src='img/start.png' /></div></div>";
+
+			var infoWin = new BMapLib.InfoBox(
+				map,
+				infoContent,
+				{
+//					align:[INFOBOX_AT_TOP,INFOBOX_AT_BOTTOM],
+					boxStyle: {
+						border:"1px solid #000",
+						width: "350px",
+						height: "210px"
+					},					
+					enableAutoPan: true,
+					closeIconUrl:"img/end.png",
+					offset: new BMap.Size(25, 25)
+
+				}
+			);
+
+			infoWin.open(marker);
+		</script>
+	</body>
+
+</html>

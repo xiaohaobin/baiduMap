@@ -1,0 +1,38 @@
+body, html{width:744px;height: 415px;margin:0 auto; }
+#allmap {width:744px;height:326px; overflow: hidden; zoom:1;position:relative;}
+#result {width:100%;font-size:12px;height:10px;}
+#xy{ display: none;}
+#info select{width: 120px; margin-top:5px; margin-left:-5px; }
+#suggestId{ width:320px; height:23px}
+#span_address{position: relative;left: -329px;}
+#searchResultPanel{border:1px solid #C0C0C0; width:150px;height:auto; display:none;}
+#jingWei{margin-top:4px}
+#jing{height:23px;margin-left:0px;width:136px}
+#wei{height:23px;width:136px}
+#result img{cursor:pointer; position: relative;left: 683px;top: 15px; z-index:2;}
+#map{height:100%;-webkit-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out;}
+.s_name{font-size: 14px;}
+
+dl,dt,dd,ul,li{
+		margin:0;
+		padding:0;
+		list-style:none;
+	}
+p,span{font-size:12px;}
+dt{
+		font-size:12px;
+		
+		font-weight:bold;
+		border-bottom:1px dotted #000;
+		padding:5px 0 5px 5px;
+		margin:5px 0;
+	}
+dd{
+		padding:5px 0 0 5px;
+	}
+li{
+		line-height:28px;
+	}
+.address{
+		font-size:12px;
+	}

@@ -1,0 +1,66 @@
+/*满屏地图*/
+html {
+    height: 100%
+}
+
+body {
+    height: 100%;
+    margin: 0px;
+    padding: 0px
+}
+
+#container {
+    height: 100%
+}
+#myPageTop{
+    position: absolute;
+    z-index:10;
+    top:0;
+    left:50%;
+    transform: translateX(-50%);
+    background: #fff;
+    width:80%;
+    padding:20px;
+}
+#myPageTop a{
+    display: inline-block;
+    text-align: center;
+    padding:6px 20px;
+    color:#fff;
+    background: #a0c8ff;
+    text-decoration:none;
+}
+#myPageTop #show{
+    display: block;
+}
+#myPageTop input{
+    font-size:14px;
+    padding:6px 8px;
+    border:1px solid #ccc;
+    outline:none;
+}
+.pageShow h3{
+    margin:20px 0 10px;
+}
+#panel {
+    position: absolute;
+    background-color: white;
+    max-height: 90%;
+    overflow-y: auto;
+    top: 10px;
+    right: 10px;
+    width: 280px;
+}
+.infowindow-content{
+    padding:12px 8px;
+    color:#fff;
+    background:#ccc;
+}
+
+h3{
+    font-family: "Microsoft YaHei";
+!important;
+}
+.pageShow{
+    display:none;
+}

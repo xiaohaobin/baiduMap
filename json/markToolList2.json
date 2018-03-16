@@ -1,0 +1,41 @@
+{
+	"name":"自定义覆盖物图片列表2",
+	"htmlData":[
+	      {	   
+	    	  "className":"tanbaIconList",
+	    	  "ele":"li",
+	    	  "htmlData":[
+	    	              {
+	    	            	 "id":24,
+	 	    	             "ele":"a",
+	 	    	             "src":"img/tanba.gif",
+	 	    	             "width":"19px",
+	 	    	             "height":"25px"
+	    	              },
+	    	              {
+	    	            	 "id":25,
+	 	    	             "ele":"a",
+	 	    	             "src":"img/tanba2.gif",
+	 	    	             "width":"12px",
+	 	    	             "height":"21px"
+	    	              },
+	    	              {
+	    	            	 "id":26,
+	 	    	             "ele":"a",
+	 	    	             "src":"img/kache.png",
+	 	    	             "width":"37px",
+	 	    	             "height":"17px"
+	    	              },
+	    	              {
+	    	            	 "id":27,
+	 	    	             "ele":"a",
+	 	    	             "src":"img/car.png",
+	 	    	             "width":"52px",
+	 	    	             "height":"26px"
+	    	              }
+	    	              
+	    	   ]
+	      }
+	     
+	 ]
+}

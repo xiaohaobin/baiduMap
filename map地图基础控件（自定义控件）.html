@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!--手机显示正常的声明-->
+    	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<title>地图控件</title>
+		<style type="text/css">
+			html {
+				height: 100%
+			}
+			
+			body {
+				height: 100%;
+				margin: 0px;
+				padding: 0px
+			}
+			
+			#allmap {
+				height: 100%
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div id="allmap"></div>
+		<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+		<script type="text/javascript">
+			var map = new BMap.Map("allmap");
+			map.enableScrollWheelZoom(true); //默认关闭鼠标缩放。重新设置true
+			
+			var point = new BMap.Point(116.417854,39.921988);
+			map.centerAndZoom(point, 15);//定中心
+			
+			
+			 // 创建标注，将标注添加到地图中
+		    var marker = new BMap.Marker(point);  
+		    map.addOverlay(marker);              
+		   
+		   
+		    //监听地图点击事件，获取点击的点经纬度
+		    map.addEventListener('click',function(e){
+		        var newOne = new BMap.Point(e.point.lng+","+e.point.lat);
+		        console.log(e.point.lng+","+e.point.lat);
+//		        map.openInfoWindow(BMap.InfoWindow,newOne);
+		    });
+			
+			
+			/*
+			 自定义控件构造函数
+			  步骤：
+		    1.定义一个自定义控件的构造函数。 
+		    2.设置自定义控件构造函数的prototype属性为Control的实例，以便继承控件基类。 
+		    3.实现initialize()方法并提供defaultAnchor和defaultOffset属性。
+			 * */
+			
+			  // 定义一个控件类，即function    
+		    function ZoomControl(){    
+		        // 设置默认停靠位置和偏移量  
+		        this.defaultAnchor = BMAP_ANCHOR_TOP_LEFT;    
+		        this.defaultOffset = new BMap.Size(10, 10);    
+		    }    
+		    // 通过JavaScript的prototype属性继承于BMap.Control   
+		    ZoomControl.prototype = new BMap.Control();
+		    // 自定义控件必须实现initialize方法，并且将控件的DOM元素返回   
+		    // 在本方法中创建个div元素作为控件的容器，并将其添加到地图容器中   
+		    ZoomControl.prototype.initialize = function(map){    
+			    // 创建一个DOM元素   
+			     var div = document.createElement("div");    
+			    // 添加文字说明    
+			     div.appendChild(document.createTextNode("点击我可放大"));    
+			     // 设置样式    
+			     div.style.cursor = "pointer";    
+			     div.style.border = "1px solid gray";    
+			     div.style.backgroundColor = "white";    
+			     // 绑定事件，点击一次放大两级    
+			     div.onclick = function(e){  
+			      map.zoomTo(map.getZoom() + 2);    
+			     }    
+			     // 添加DOM元素到地图中   
+			     map.getContainer().appendChild(div);    
+			     // 将DOM元素返回  
+			     return div;    
+		     }
+		     // 创建控件实例    
+   			 var myZoomCtrl = new ZoomControl();
+		    // 添加到地图当中 
+		    map.addControl(myZoomCtrl);
+		</script>
+	</body>
+
+</html>
