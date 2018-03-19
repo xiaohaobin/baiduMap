@@ -10,71 +10,15 @@
 		
 		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.myPlugIn_v1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/underscore.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/formTpl.js" type="text/javascript" charset="utf-8"></script>
 		<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>
-		<!--城市列表sss-->
-		<script src="js/BMapLib_CityList.js" type="text/javascript" charset="utf-8"></script>
-		<!--城市列表eee-->
+		
 		<!--自定义标注sss-->
 		<script src="js/MarkerTool_min.js" type="text/javascript" charset="utf-8"></script>
 		<!--自定义标注eee-->
 		<title>地图控件</title>
-		<style type="text/css">
-			html {
-				height: 100%
-			}
-			
-			body {
-				height: 100%;
-				margin: 0px;
-				padding: 0px;
-				position: relative;
-			}
-			
-			#allmap {
-				height: 100%
-			}
-			
-			#container {
-				font-size: 12px;
-				margin: 5px 0;
-			}
-			
-			.BMap_scaleCtrl.BMap_noprint.anchorTR {
-				background: #fff;
-				border: 1px solid #ddd;
-				padding: 10px 3px;
-			}
-			
-			.BMap_cpyCtrl.BMap_noprint.anchorBL {
-				display: none;
-			}
-			.lf{
-				float: left;
-			}
-			.rf{
-				float: right;
-			}
-			.parentClear{
-				overflow: hidden;
-			}
-			.parentClear:after{
-				content: "";
-				display: block;
-				clear: both;
-			}
-			#diyMarkBox{
-				/*position: relative;*/
-			}
-			#divStyle{
-				position: absolute;
-				top: 46px;
-				left: 0;
-				background: #fff;
-				z-index: 200;
-			}
-		</style>
-
+		
 	</head>
 
 	<body>
@@ -89,6 +33,7 @@
 
 				<input type="button" value="选择标注样式" onclick="openStylePnl()" />
 				<input type="button" value="关闭" onclick="mkrTool.close()" />
+				<button type="button" onclick="ps()">说明</button>
 				<div id="divStyle">
 					<ul>
 						
@@ -217,50 +162,12 @@
 			map.addControl(geolocationControl);
 		</script>
 		
-		<script type="text/javascript">
-			//实例化城市列表类
-//			var cityList = new BMapLib.CityList({
-//				container: 'cityContainer',
-//				map: map
-//			});
-
-			///传商圈字段，获取商圈所属上级区域和商圈类型
-//			cityList.getBusiness('中关村', function(json) {
-//				console.log(json);
-//			});
-//			//点击选择城市下拉框的事件监听
-//			cityList.addEventListener('cityclick', function(e) {
-//				console.log(e);
-//				//传区域编码，获取区域对象
-//				cityList.getSubAreaList(131, function(json) {
-//					console.log(json);
-//				});
-//
-//			});
-		</script>
+		
 		
 		<script type="text/javascript">
 			//已经部署的探霸数据数组
 			var aTbInfo = [];
-			
-			//回显已经部署的探霸
-			if(localStorage.getItem("aTbInfo")){
-				aTbInfo = JSON.parse(localStorage.getItem("aTbInfo"));
-				console.log(aTbInfo);
-				//添加标注
-				for(var ke in aTbInfo){
-					var backP = new BMap.Point(aTbInfo[ke].jwd[0], aTbInfo[ke].jwd[1]);
-					var backIcon = new BMap.Icon(aTbInfo[ke].tanbaIcon, new BMap.Size(36, 36));
-					var backMkr = new BMap.Marker(backP, {
-						icon: backIcon
-					}); // 创建标注
-					map.addOverlay(backMkr); // 将标注添加到地图中
-				}
-				
-			}
-			
-			
-			
+			var geoc = new BMap.Geocoder();//实例化查询定位对象
 			//sHtml form formTpl.js,表单模板
 			var infoWin = new BMap.InfoWindow(sHtml, {
 				offset: new BMap.Size(0, -10)
@@ -270,7 +177,7 @@
 			var mkrTool = new BMapLib.MarkerTool(map, {
 				autoClose: true
 			});
-			var geoc = new BMap.Geocoder();//实例化查询定位对象
+			
 			//监听覆盖物添加到地图事件
 			mkrTool.addEventListener("markend", function(evt) {
 				console.log(evt.target._opts.icon);
@@ -282,26 +189,23 @@
 				//初始化经纬度，图标和地址
 				$('#tanbaIcon').val(evt.target._opts.icon.imageUrl);
 				$('#jwd').val(mkr.getPosition().lng + ',' + mkr.getPosition().lat);
+				//回显地址
 				var	pt = mkr.getPosition();
-				geoc.getLocation(pt, function(rs) {
-					addComp = rs.addressComponents;
-					dizhi = addComp.city + addComp.district + addComp.street + addComp.streetNumber;
-					$('#tanbaAddr').val(dizhi);
+				backAddr(pt,$('#tanbaAddr'));
+				
+				//监听关闭信息窗口
+				infoWin.addEventListener('close',function(evt){
+					
 				});
+				
 				
 				//监听拖动覆盖物，更新编辑其信息
 				mkr.addEventListener("dragend", function(e) { //拖动事件 
-					var pt = e.point;
-					console.log(pt);
-					geoc.getLocation(pt, function(rs) {
-						addComp = rs.addressComponents;
-						dizhi = addComp.city + addComp.district + addComp.street + addComp.streetNumber;
-						$('#tanbaAddr').val(dizhi); //更新地址数据
-//						console.log(dizhi);
-					});
+				//回显地址
+					backAddr(e.point,$('#tanbaAddr'));
 					$('#jwd').val(e.point.lng + "," + e.point.lat);
 					//重新设置圆的中心点
-					circle.setCenter(pt);
+					circle.setCenter(e.point);
 				});
 				
 				//监听点击覆盖物,更新编辑其信息
@@ -311,29 +215,20 @@
 					//打开信息窗口
 					this.openInfoWindow(infoWin);
 					
-					
-					
 					//回显地址，经纬度，图标路劲，圆的半径
-					var pt = e.point;
-					geoc.getLocation(pt, function(rs) {
-						addComp = rs.addressComponents;
-						dizhi = addComp.city + addComp.district + addComp.street + addComp.streetNumber;
-						$('#tanbaAddr').val(dizhi);
-					});
+					backAddr(e.point,$('#tanbaAddr'));
 					console.log(e.point.lng + "," + e.point.lat);
 					$('#jwd').val(e.point.lng + "," + e.point.lat);
 					$('#tanbaIcon').val(_this.z.kj.imageUrl);
 					$('#radius').val(circle.getRadius());
 					
-					//监听圆半径输入框键盘输入事件
+//					//监听圆半径输入框键盘输入事件
 					$('#radius').on('blur',function(){
 						circle.setRadius($(this).val());
 					});
 				});
 				
-				mkr.addEventListener("dblclick", function(e) { 
-					map.removeOverlay(this)
-				});
+
 				//画圆
 				var nLng = mkr.getPosition().lng,
 					nLat = mkr.getPosition().lat;
@@ -351,7 +246,11 @@
 			
 			//打开样式面板
 			function openStylePnl() {
-				document.getElementById("divStyle").style.display = "block";
+				if($('#divStyle').attr('data') == '1'){
+					$('#divStyle').hide().removeAttr('data');
+					return false;
+				}
+				$('#divStyle').show().attr('data','1');
 			}
 
 			//选择样式
@@ -361,7 +260,7 @@
 				var icon = BMapLib.MarkerTool.SYS_ICONS[index]; //设置工具样式，使用系统提供的样式BMapLib.MarkerTool.SYS_ICONS[0] -- BMapLib.MarkerTool.SYS_ICONS[23]
 				console.log(icon);
 				mkrTool.setIcon(icon);
-				document.getElementById("divStyle").style.display = "none";
+				$('#divStyle').hide();
 			}
 
 			//提交数据
@@ -370,11 +269,11 @@
 				var tanbaID = encodeHTML(document.getElementById("tanbaID").value);
 				var tanbaAddr = encodeHTML(document.getElementById("tanbaAddr").value);
 				var jwd = encodeHTML(document.getElementById("jwd").value);
-				var desc = encodeHTML(document.getElementById("areaDesc").value);
+				var desc = encodeHTML(document.getElementById("desc").value);
 				var radius = encodeHTML(document.getElementById("radius").value);
 				var tanbaIcon = encodeHTML(document.getElementById("tanbaIcon").value);
 				
-				if(!tanbaName || !tanbaID || !radius) {
+				if(!tanbaName || !radius) {
 					alert("星号字段必须填写");
 					return;
 				}
@@ -407,12 +306,15 @@
 					radius:radius,
 					tanbaIcon:tanbaIcon
 				}
+				
+				
 				if(localStorage.getItem("aTbInfo")){
 					aTbInfo = JSON.parse(localStorage.getItem("aTbInfo"));
 				}
 				aTbInfo.push(tanbaData);
 				localStorage.setItem("aTbInfo",JSON.stringify(aTbInfo));
 				console.log(JSON.parse(localStorage.getItem("aTbInfo")));
+				window.location.reload();
 				
 			}
 
@@ -420,8 +322,161 @@
 			function encodeHTML(a) {
 				return a.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 			}
-
-
+			
+			//回显已经部署的探霸
+			if(localStorage.getItem("aTbInfo")){
+				aTbInfo = JSON.parse(localStorage.getItem("aTbInfo"));
+				console.log(aTbInfo);
+				//添加标注
+				for(var ke in aTbInfo){
+					var backP = new BMap.Point(aTbInfo[ke].jwd[0], aTbInfo[ke].jwd[1]);
+					var backIcon = new BMap.Icon(aTbInfo[ke].tanbaIcon, new BMap.Size(36, 36));
+					var backMkr = new BMap.Marker(backP, {
+						icon: backIcon
+					}); 
+					
+					backMkr.code = aTbInfo[ke];//绑定属性数据
+					backMkr.enableDragging(); //设置可拖拽
+					map.addOverlay(backMkr); // 将标注添加到地图中
+					
+					//设置label和//设置title
+					if(backMkr) {
+						var lbl = new BMap.Label(aTbInfo[ke].tanbaName, {
+							offset: new BMap.Size(15, -15)
+						});
+						lbl.setStyle({
+							border: "solid 1px gray"
+						});
+						backMkr.setLabel(lbl);
+						//设置title
+						var title = "探霸id: " + aTbInfo[ke].tanbaID + "\n\r" + "地址: " + aTbInfo[ke].tanbaAddr + "\n\r" + "描述: " + aTbInfo[ke].desc;
+						backMkr.setTitle(title);
+					}
+					
+					//设置范围圆圈
+					var circle = new BMap.Circle(backP,aTbInfo[ke].radius,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3});
+					map.addOverlay(circle);
+					
+					//监听开始拖拽的事件
+					var oPoint = null;
+					backMkr.addEventListener("dragstart", function(e) { //拖动事件
+						oPoint = this.point;
+						this.openInfoWindow(infoWin);
+						//回显地址，经纬度，当前icon图标，当前圆半径...
+						$('#tanbaName').val(this.code.tanbaName);
+						$('#tanbaIcon').val(this.code.tanbaIcon);
+						$('#tanbaID').val(this.code.tanbaID);
+						$('#radius').val(this.code.radius);
+						$('#desc').val(this.code.desc);
+					});
+					//监听拖动之后覆盖物，更新编辑其信息
+					backMkr.addEventListener("dragend", function(e) { //拖动事件 
+						
+						//回显地址
+						backAddr(e.point,$('#tanbaAddr'));
+						$('#jwd').val(e.point.lng + "," + e.point.lat);
+						
+						//圆对象随之移动
+						var oCircle = oBackCircle(oPoint);
+						oCircle.setCenter(e.point);
+					});
+					
+					
+					//监听标注点击事件
+					backMkr.addEventListener("click", function(e,d,w) { 
+						var _this = this;
+						console.log(_this.code,_this.point);
+						//打开信息窗口
+						this.openInfoWindow(infoWin);
+						//回显地址，经纬度，当前icon图标，当前圆半径...
+						$('#tanbaName').val(_this.code.tanbaName);
+						$('#tanbaIcon').val(_this.code.tanbaIcon);
+						$('#tanbaAddr').val(_this.code.tanbaAddr);
+						$('#tanbaID').val(_this.code.tanbaID);
+						$('#radius').val(_this.code.radius);
+						$('#desc').val(_this.code.desc);
+						$('#jwd').val(_this.code.jwd[0] + ',' + _this.code.jwd[1]);
+						
+					
+						//监听圆半径输入框键盘输入事件
+						$('#radius').on('blur',function(){
+							var oCircle = oBackCircle(_this.point);
+							oCircle.setRadius($(this).val());
+						});
+					});
+					
+					//监听双击删除探霸
+					backMkr.addEventListener("rightclick", function(e) { 
+						var _this = this;
+						var aO = map.getOverlays();
+						//删除对应覆盖物的圆圈
+						$.each(aO, function(i,v) {
+							console.log(v);
+							console.log(v.__proto__.vQ);//覆盖物类型
+							if(v.__proto__.vQ == 'Circle' && v.point.lat == _this.point.lat && v.point.lng == _this.point.lng) map.removeOverlay(v);
+						});
+						map.removeOverlay(this);
+//						//判断删除所点击的探霸数据，并返回剩下的数据存储在local中
+						aTbInfo = _.reject(aTbInfo, function(v){
+							return _.isEqual(v,_this.code) == true;
+						});
+						localStorage.setItem("aTbInfo",JSON.stringify(aTbInfo));
+					});
+				}
+				
+			}
+			
+			
+			//定位回显地址到表单
+			function backAddr(pt,ele){
+				geoc.getLocation(pt, function(rs) {
+					addComp = rs.addressComponents;
+					dizhi = addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+					ele.val(dizhi);
+				});
+			}
+			
+			
+			/*
+			 返回最小绝对值
+			 输入aN，数组对象，o，对象
+			 return arr
+			 * */
+			function backMin(aN,o){
+				
+				return	_.min(aN,function(v){
+						return Math.abs(v.lat - o.lat) && Math.abs(v.lng - o.lng);
+				});
+				
+			}
+			/*
+			 返回匹配的圆对象
+			 输入:匹配的接近经纬度对象
+			 输出：obj，圆对象
+			 * */
+			
+			function oBackCircle(oPoint){
+				var getCircle;
+				var aPoints = [];
+				var aO = map.getOverlays();
+				//重新设置圆的中心点,因为拖拽的时候触点有误差，故加入最小偏差算法
+				$.each(aO, function(i,v) {
+					if(v.__proto__.vQ == 'Circle'){
+						aPoints.push(v.point);
+					} 
+				});
+				
+				$.each(aO, function(i,v) {
+					if(_.isEqual(v.point,backMin(aPoints,oPoint))){
+						getCircle = v;
+					}
+				});
+				return getCircle;
+				
+			}
+			function ps(){
+				alert('右键删除，拖拽更改等该信息，点击更改信息！')
+			}
 		</script>
 	</body>
 
