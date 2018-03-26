@@ -63,11 +63,7 @@ var fnAjax = { //
 			dataType: "json",
 			data: mdata,
 			async: true,
-			timeout: 10000,
-			xhrFields: {
-				withCredentials: true
-			},
-			crossDomain: true,
+			timeout: 10000,			
 			beforeSend: function() {
 				layerLoad = layer.load(3);
 			},

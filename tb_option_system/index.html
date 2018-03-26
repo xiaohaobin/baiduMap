@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!--手机显示正常的声明-->
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="lib/bootstrap-3.3.7-dist/css/bootstrap.css"/>
+		<link rel="stylesheet" type="text/css" href="css/mark.css" />
+		<link rel="stylesheet" href="lib/zTree/css/metroStyle/metroStyle.css" type="text/css">
+		
+		<script src="lib/jquery/1.9.1/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/layer-v3.0.1/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.myPlugIn_v1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/underscore.js" type="text/javascript" charset="utf-8"></script>		
+		<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>
+		<script src="js/MarkerTool_min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="lib/zTree/js/jquery.ztree.core.js"></script>
+		<script type="text/javascript" src="lib/zTree/js/jquery.ztree.excheck.js"></script>
+		<script type="text/javascript" src="lib/zTree/js/jquery.ztree.exedit.js"></script>
+		<title>探霸终端部署系统</title>
+		
+	</head>
+
+	<body>
+		
+			<div id="controlBox" class="container-fluid">
+
+				<!--级联城市列表容器sss-->
+				<div id="cityContainer" ></div>
+				<!--级联城市列表容器eee-->
+	
+				<!--添加标注组件模块sss-->
+				<div id="diyMarkBox" >
+	
+					<input type="button" value="选择标注样式" onclick="openStylePnl()" class="btn btn-primary"/>
+					<!--<input type="button" value="关闭" onclick="mkrTool.close()" />-->
+					<button type="button" onclick="ps()" class="btn btn-success">说明</button>
+					<div id="divStyle">
+						<ul>
+							
+						</ul>
+					</div>
+					<button type="button" onclick="optionedList()" class="btn btn-success">部署列表</button>
+				</div>
+				<!--添加标注组件模块eee-->
+			</div>
+			
+			<div id="allmap"></div>
+		
+		
+		
+		<!--加载图标列表模板-->
+		<script src="js/tpl.js" type="text/javascript" charset="utf-8"></script>
+		<!--百度地图基础类-->
+		<script src="js/BMap_control.js" type="text/javascript" charset="utf-8"></script>
+		<!--初始化自定义标注对象，初始化数据渲染，探霸数据查看，更新，添加，删除-->
+		<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="js/ztree-area-search-one.js" type="text/javascript" charset="utf-8"></script>-->
+		<script type="text/javascript">
+		
+			
+		</script>
+	</body>
+
+</html>

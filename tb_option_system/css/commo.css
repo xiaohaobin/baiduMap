@@ -1,0 +1,330 @@
+@charset "utf-8";
+.c-gray{
+	color: #ADBBCB;
+}
+.c-gray2{
+	color: #A8B7C7;
+}
+.ml-20{
+	margin-left: 20px;	
+}
+.ml-10{
+	margin-left: 10px;	
+}
+.ml-5{
+	margin-left: 5px;	
+}
+.ml-30{
+	margin-left: 30px;	
+}
+.ml-15{
+	margin-left: 15px;	
+}
+.ml-25{
+	margin-left: 25px;	
+}
+.mt-10{
+	margin-top: 10px;
+}
+.mt-20{
+	margin-top: 20px;
+}
+.mt-25{
+	margin-top: 25px;
+}
+.mt-5{
+	margin-top: 5px;
+}
+.mt-15{
+	margin-top: 15px;
+}
+.mt-30{
+	margin-top: 30px;
+}
+.no-border{
+	border: none;
+}
+.childPage{
+	min-height: 85vh;
+	min-height: 800px;
+	height: 800px;
+	
+}
+.v-hidden{
+	visibility: hidden;
+}
+.required:before{
+	content: "*";
+	color: red;
+	display: inline;
+}
+.mapStyle{
+	width: 100%;
+	height: 100%;
+}
+.anchorBL{
+	display: none;
+}
+div.content{
+	position: relative;
+	width: 100%;
+	height: 580px;
+	/*height: auto;*/
+	height: 45em;
+	margin-left:0;
+	margin-right:0;	
+}
+/*.tableBox{
+	position: absolute;
+	width: 50%;
+	height: 100%;
+	top: 0;
+	border: 1px solid #ddd;
+	background: #fff;
+	right: 0;	
+}*/
+.text-c{
+	text-align: center;
+}
+.text-c th{
+	text-align: center;
+}
+.lf{
+	float: left;
+}
+.rf{
+	float: right;
+}
+.parentClear{
+	overflow: hidden;
+}
+.parentClear:after{
+	content: "";
+	display: block;
+	clear: both;
+}
+.table-header{
+	background: #007ACE;
+	height: 40px;
+}
+.c-white{
+	color: #fff;
+}
+.text-l{
+	text-align: left;	
+}
+.text-right{
+	text-align: right;
+}
+.header-title{
+	line-height: 40px;
+}
+.attention{
+	border-color: #fff;
+    padding: 2px 12px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0.5em;
+    right: 1%;
+    background: none;
+}
+.cutBtn{
+    line-height: 40px;
+    position: absolute;
+    left: 2%;
+}
+.bg-white{
+	background: #fff;
+}
+.bg-gray{
+	background: #ddd;
+}
+.table-footer{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 40px;
+	text-align: center;
+}
+.exlBtn{
+    margin: 0 50px 0 10px;
+}
+.reLoadBtn{
+	margin: 0 10px;
+}
+.reLoadBox{
+	position: absolute;
+    right: 0;
+    bottom: 0.7em;
+}
+.data-statistics{
+	position: absolute;
+    left: 0;
+    top: 0.7em;
+    padding-left: 10px;
+}
+.pageOption{
+	line-height: 40px;
+}
+.pageOption{
+	margin: 5px;
+}
+.hide{
+	display: none;
+}
+.mb-5{
+	margin-bottom: 5px;	
+}
+.mb-10{
+	margin-bottom: 10px;	
+}
+.mb-15{
+	margin-bottom: 15px;	
+}
+.mb-20{
+	margin-bottom: 20px;	
+}
+.mb-25{
+	margin-bottom: 25px;	
+}
+.mb-30{
+	margin-bottom: 30px;	
+}
+.mr-5{
+	margin-right: 5px;
+}
+.mr-10{
+	margin-right: 10px;
+}
+.mr-15{
+	margin-right: 15px;
+}
+.mr-20{
+	margin-right: 20px;
+}
+.mr-25{
+	margin-right: 25px;
+}
+.mr-30{
+	margin-right: 30px;
+}
+/*文字单行溢出省略号*/
+.text-overflow{overflow: hidden;text-overflow: ellipsis;white-space: nowrap}
+.searchDetails{
+	cursor: pointer;
+}
+.posi-r{
+	position: relative;
+}
+.border-2-gray{
+	border: 2px solid gray;
+}
+.radius{
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+}
+div.showArea{
+	height: 100px;
+	min-height:100px;	
+	padding:5px ;
+	margin-left: 0;
+	margin-right: 0;
+}
+.hasSelect{
+	display: inline-block;
+	position: relative;
+	margin: 0 10px;
+}
+.inline-block{
+	display: inline-block;
+}
+.block{
+	display: block;
+}
+.inline{
+	display: inline;
+}
+.border-bottom-left-radius-0{
+	border-bottom-left-radius: 0;
+}
+.border-bottom-right-radius-0{
+	border-bottom-right-radius: 0;
+}
+.border-top-left-radius-0{
+	border-top-left-radius: 0;
+}
+.border-top-right-radius-0{
+	border-top-right-radius: 0;
+}
+select.selectReset{
+	display: inline-block;
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+	width: 70%;
+	float: left;
+}
+a.selectClose{
+	border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-bottom: 3%;
+}
+
+.pt-5{padding-top:5px}/*上填充5像素*/
+.pt-10{padding-top:10px}/*上填充10像素*/
+.pt-15{padding-top:15px}/*上填充15像素*/
+.pt-20{padding-top:20px}/*上填充20像素*/
+.pt-25{padding-top:25px}/*上填充25像素*/
+.pt-30{padding-top:30px}/*上填充30像素*/
+ 
+.pb-5{padding-bottom:5px}/*下填充5像素*/
+.pb-10{padding-bottom:10px}/*下填充10像素*/
+.pb-15{padding-bottom:15px}/*下填充15像素*/
+.pb-20{padding-bottom:20px}/*下填充20像素*/
+.pb-25{padding-bottom:25px}/*下填充25像素*/
+.pb-30{padding-bottom:30px}/*下填充30像素*/
+ 
+.pl-5{padding-left:5px}/*左填充5像素*/
+.pl-10{padding-left:10px}/*左填充10像素*/
+.pl-15{padding-left:15px}/*左填充15像素*/
+.pl-20{padding-left:20px}/*左填充20像素*/
+.pl-25{padding-left:25px}/*左填充25像素*/
+.pl-30{padding-left:30px}/*左填充30像素*/
+ 
+.pr-5{padding-right:5px}/*右填充5像素*/
+.pr-10{padding-right:10px}/*右填充10像素*/
+.pr-15{padding-right:15px}/*右填充15像素*/
+.pr-20{padding-right:20px}/*右填充20像素*/
+.pr-25{padding-right:25px}/*右填充25像素*/
+.pr-30{padding-right:30px}/*右填充30像素*/
+ 
+.pd-5{padding:5px}/*填充5像素*/
+.pd-10{padding:10px}/*填充10像素*/
+.pd-15{padding:15px}/*填充15像素*/
+.pd-20{padding:20px}/*填充20像素*/
+.pd-25{padding:25px}/*填充25像素*/
+.pd-30{padding:30px}/*填充30像素*/
+.td-option a{
+	margin:0 10px;
+}
+ul.noticeList li span.notice{
+	display: inline-block;
+	width: 23px;
+	height: 25px;
+	background: url(../images/markers.png) no-repeat;
+} 
+ul.noticeList li span.macNotice{
+	background-position: 0 -275px;
+}
+ul.noticeList li span.flowNotice{
+	background-position: 0 -300px;
+}
+ul.noticeList li{
+	float: left;
+	margin-right: 30px;
+}
+ul,li{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}

@@ -1,0 +1,210 @@
+.stickytable-container {
+	clear: both;
+}
+.stickytable-container table {
+    border-collapse: collapse;
+    margin-bottom: 3em;
+    width: 100%;
+    background: #fff;
+}
+.stickytable-container td, .stickytable-container th {
+    padding: 0.75em 1.5em;
+}
+	.stickytable-container td {
+		text-align: right;
+	}
+	.stickytable-container td.err {
+		background-color: #e992b9 !important;
+		color: #fff !important;
+		font-size: 0.75em;
+		text-align: center;
+		line-height: 1;
+	}
+.stickytable-container  th {
+    font-weight: bold;
+    color: #fff !important;
+    white-space: nowrap;
+	text-align:center;
+	border-bottom: 1px solid #fff;
+	vertical-align: middle;
+}
+.stickytable-container .green th {
+	background-color: #1bbc9b !important;
+}
+.stickytable-container .blue th {
+	background-color: #3598dc !important;
+}
+.stickytable-container .red th {
+	background-color: #e26a6a !important;
+}
+.stickytable-container .yellow th {
+	background-color: #f7ca18 !important;
+}
+.stickytable-container .purple th {
+	background-color: #9b59b6 !important;
+}
+.stickytable-container .grey th {
+	background-color: #afafaf !important;
+}
+.stickytable-container .bordered th {
+	border: 1px solid #fff;
+}
+.stickytable-container .bordered td {
+	border: 1px solid #ccc;
+}
+.stickytable-container tbody th {
+	text-align: left;
+}
+.stickytable-container .green tbody th {
+	background-color: #26a69a !important;
+}
+.stickytable-container .blue tbody th {
+	background-color: #4b77be !important;
+}
+.stickytable-container .red tbody th {
+	background-color: #e35b5a !important;
+}
+.stickytable-container .yellow tbody th {
+	background-color: #f3c200 !important;
+}
+.stickytable-container .purple tbody th {
+	background-color: #8e5fa2 !important;
+}
+.stickytable-container .grey tbody th {
+	background-color: #95a5a6 !important;
+}
+.stickytable-container tbody tr.jumlah th {
+	background-color: #31bc86 !important;
+	text-align: center;
+}
+.stickytable-container tbody tr.jumlah td {
+    font-weight: bold;
+}
+.stickytable-container tbody tr:nth-child(2n-1) {
+    background-color: #f5f5f5 !important;
+    transition: all .125s ease-in-out;
+}
+.stickytable-container tbody tr:hover {
+    background-color: rgba(129,208,177,.3) !important;
+}
+/* For appearance */
+.stickytable-wrap {
+	overflow-x: auto;
+	overflow-y: hidden;
+	position: relative;
+	margin: 0;
+	width: 100%;
+	clear: both;
+}
+.stickytable-wrap .stickytable-thead,
+.stickytable-wrap .stickytable-col,
+.stickytable-wrap .stickytable-intersect {
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	transition: all .125s ease-in-out;
+	z-index: 50;
+	width: auto; /* Prevent table from stretching to full size */
+}
+	.stickytable-wrap .stickytable-thead {
+		box-shadow: 0 0.25em 0.1em -0.1em rgba(0,0,0,.125);
+		z-index: 100;
+		width: 100%; /* Force stretch */
+	}
+	.stickytable-wrap .stickytable-intersect {
+		opacity: 1;
+		z-index: 150;
+
+	}
+		.stickytable-wrap .stickytable-intersect th {
+			color: #eee !important;
+			border-bottom: 1px solid #666;
+		}
+		.stickytable-wrap.green .stickytable-intersect th {
+			background-color: #1ba39c !important;
+		}
+		.stickytable-wrap.blue .stickytable-intersect th {
+			background-color: #67809f !important;
+		}
+		.stickytable-wrap.red .stickytable-intersect th {
+			background-color: #cb5a5e !important;
+		}
+		.stickytable-wrap.yellow .stickytable-intersect th {
+			background-color: #e87e04 !important;
+		}
+		.stickytable-wrap.purple .stickytable-intersect th {
+			background-color: #8e44ad !important;
+		}
+		.stickytable-wrap.grey .stickytable-intersect th {
+			background-color: #555555 !important;
+		}
+.stickytable-wrap td,
+.stickytable-wrap th {
+	box-sizing: border-box;
+}
+/* Not needed for stickytable header/column functionality */
+.stickytable-wrap.overflow-y {
+	overflow-y: auto;
+	max-height: 75vh;
+}
+.stickytable-exportarea.left{
+	float: left;
+}
+.stickytable-exportarea.right{
+	float: right;
+}
+.stickytable-exportarea.top{
+	margin-bottom: 10px;
+}
+.stickytable-exportarea.bottom{
+	margin-top: 10px;
+}
+.stickytable-btn {
+    -moz-user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857;
+    margin-bottom: 0;
+    padding: 6px 12px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+	text-decoration: none;
+}
+.stickytable-btn:focus {
+    outline: thin dotted;
+    outline-offset: -2px;
+}
+.stickytable-btn:hover, .stickytable-btn:focus {
+    color: #333 !important;
+    text-decoration: none;
+}
+.stickytable-btn:active, .stickytable-btn.active {
+    background-image: none;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
+    outline: 0 none;
+}
+.stickytable-btn.disabled, .stickytable-btn[disabled] {
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.65;
+    pointer-events: none;
+}
+.stickytable-btn-default {
+    background-color: #fff;
+    border-color: #ccc;
+    color: #333;
+}
+.stickytable-btn-default:hover, .stickytable-btn-default:focus, .stickytable-btn-default:active, .stickytable-btn-default.active {
+    background-color: #ebebeb;
+    border-color: #adadad;
+    color: #333;
+}
+.stickytable-btn-default:active, .stickytable-btn-default.active{
+    background-image: none;
+}

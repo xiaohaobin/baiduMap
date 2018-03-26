@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="lib/bootstrap-3.3.7-dist/css/bootstrap.css"/>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<table class="table table-bordered table-striped table-responsive">
+				<thead>
+					<tr>
+						<th>设备id</th>
+						<th>设备名称</th>
+						<th>天线功率</th>
+						<th>覆盖范围</th>
+						<th>经度</th>
+						<th>维度</th>
+						<th>详细地址</th>
+						<th>备注</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+				</tbody>
+			</table>	
+		</div>
+		
+		<script src="lib/jquery/1.9.1/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/optionedList.js" type="text/javascript" charset="utf-8"></script>
+		<!--导出插件区域-->
+		
+		<script type="text/javascript" src="lib/exl/assets/js/third-party/exporter/jquery.base64-zhongwen.js"></script>
+		
+		<script type="text/javascript" src="lib/exl/assets/js/kidd.stickytable.min.js"></script>
+		
+		<!--导出插件区域-->
+		<script type="text/javascript">
+			var options = {
+				"showExportBtn": true,
+				"exporter": {
+					"type": "xls",
+					"isTwoSide": false,
+					"position": "topright"
+				},
+				"style": "bordered",
+//				"color": "red",
+				"customColor": []
+			};
+			$('.table').stickyTable(options);
+			$(".stickytable-btn").addClass("btn btn-success");
+			$(".stickytable-btn").each(function(){
+				$(this).text("导出"+$(this).text());
+			});
+		</script>
+	</body>
+</html>

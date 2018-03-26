@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<HTML>
+
+	<HEAD>
+		<TITLE> ZTREE DEMO - async & edit</TITLE>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<!--<link rel="stylesheet" href="../../../css/demo.css" type="text/css">-->
+		<!--<link rel="stylesheet" href="../../../css/zTreeStyle/zTreeStyle.css" type="text/css">-->
+		<link rel="stylesheet" href="../css/metroStyle/metroStyle.css" type="text/css">
+		
+		<style type="text/css">
+			.ztree li span.button.add {
+				margin-left: 2px;
+				margin-right: -1px;
+				background-position: -144px 0;
+				vertical-align: top;
+				*vertical-align: middle
+			}
+		</style>
+	</HEAD>
+
+	<BODY>
+		<h1>异步加载 & 编辑功能 共存</h1>
+		
+		<div class="content_wrap">
+			<div class="zTreeDemoBackground left">
+				<ul id="treeDemo" class="ztree"></ul>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="../../jquery/1.9.1/jquery.js"></script>
+		<script type="text/javascript" src="../js/jquery.ztree.core.js"></script>
+		<script type="text/javascript" src="../js/jquery.ztree.excheck.js"></script>
+		<script type="text/javascript" src="../js/jquery.ztree.exedit.js"></script>
+		<script type="text/javascript">
+			var setting = {
+				async: {
+					enable: true, //开启异步加载处理  
+//					url: "../asyncData/getNodes.php",
+					url:"http://10.10.10.22/areaList/",
+					autoParam: ["id"],
+					dataFilter: filter,
+					contentType: "application/json",
+					type: "post"
+				},
+				check: {
+	                enable: true//添加勾选功能
+	            },
+				view: {
+					expandSpeed: "",
+					addHoverDom: addHoverDom,
+					removeHoverDom: removeHoverDom,
+					selectedMulti: false
+				},
+				edit: {
+					enable: true
+				},
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},
+				callback: {
+					beforeDrag: beforeDrag,//拖拽之前回调
+					beforeRemove: beforeRemove,
+					beforeRename: beforeRename,
+					beforeCheck: beforeCheck,//勾选状态
+				}
+			};
+			
+			function beforeDrag(){
+				return false;	
+			}
+			
+			function beforeCheck(treeId, treeNode) {
+//				className = (className === "dark" ? "":"dark");
+//				showLog("[ "+getTime()+" beforeCheck ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
+//				console.log("[ "+getTime()+" beforeCheck ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
+				console.log(treeNode);
+				return (treeNode.doCheck !== false);
+			}
+			
+			//页面加载获取列表
+			function filter(treeId, parentNode, childNodes) {
+				if(!childNodes)
+					return null;
+				for(var i = 0, l = childNodes.data.length; i < l; i++) {
+					childNodes.data[i].name = childNodes.data[i].address.replace(/\.n/g, '.');
+					childNodes.data[i].isParent = true;//isParent的值为true指的是有子节点，否则则是false
+				}
+				return childNodes.data;
+			}
+			
+			//删除请求
+			function beforeRemove(treeId, treeNode) {
+				console.log(treeNode);
+				if(confirm("确认删除节点--" + treeNode.name + "--吗?")) {
+					$.ajax({
+						type:"post",
+						url:"http://10.10.10.22/deleteArea/",
+						async:true,
+						dataType:"json",
+						data:{"id":treeNode.id},
+						success:function(data){
+							console.log("succ");
+						},
+						error:function(data){
+							console.log("error");
+						}
+					});
+				} else {
+					return false;
+				}
+			}
+			
+			//修改名字
+			function beforeRename(treeId, treeNode, newName) {
+				console.log(treeNode);
+				if(newName.length == 0) {
+					alert("节点名称不能为空.");
+					return false;
+				}
+				$.ajax({
+					type:"post",
+					url:"http://10.10.10.22/updateArea/",
+					async:true,
+					dataType:"json",
+					data:{
+						"pid":treeNode.pId,
+						"id":treeNode.id,
+						"address":newName
+					},
+					success:function(data){
+						console.log("succ");
+					},
+					error:function(data){
+						console.log("error");
+					}
+				});
+				return true;
+			}
+
+			//添加节点
+			function addHoverDom(treeId, treeNode) {
+				var sObj = $("#" + treeNode.tId + "_span");
+				if(treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0)
+					return;
+				var addStr = "<span class='button add' id='addBtn_" + treeNode.tId +
+					"' title='add node' onfocus='this.blur();'></span>";
+				sObj.after(addStr);
+				var btn = $("#addBtn_" + treeNode.tId);
+				if(btn)
+					btn.bind("click", function() {
+						var Ppname = prompt("请输入新节点名称");
+						if(Ppname == null) {
+							return;
+						} else if(Ppname == "") {
+							alert("节点名称不能为空");
+						} else {
+							var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+							
+							$.ajax({
+								type:"post",
+								url:"http://10.10.10.22/addArea/",
+								async:true,
+								dataType:"json",
+								data:{
+									"pid":treeNode.id,//要创建的节点的父级id
+									"address":Ppname
+								},
+								success:function(data){
+									console.log("succ");
+									if($.trim(data) != null) {
+										var treenode = $.trim(data);
+										zTree.addNodes(treeNode, {
+											pId: treeNode.id,
+											name: Ppname
+										}, true);
+									}
+								},
+								error:function(data){
+									console.log("error");
+								}
+							});
+						}
+
+					});
+			};
+
+			function removeHoverDom(treeId, treeNode) {
+				$("#addBtn_" + treeNode.tId).unbind().remove();
+			};
+			$(document).ready(function() {
+				$.fn.zTree.init($("#treeDemo"), setting);
+
+			});
+		</script>
+		
+	</BODY>
+
+</HTML>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8">
+		<!-- IE -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!-- 设置 viewport -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- 兼容国产浏览器的高速模式 -->
+		<meta name="renderer" content="webkit">
+		<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+		<title></title>
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+		<!-- boots-->
+		<link rel="stylesheet" type="text/css" href="lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/commo.css" />s
+		<!--<link rel="stylesheet" type="text/css" href="../../css/Vaildform.css" />-->
+		<link rel="stylesheet" href="lib/zTree/css/metroStyle/metroStyle.css" type="text/css">
+
+		<style type="text/css">
+			.ztree li span.button.add {
+				margin-left: 2px;
+				margin-right: -1px;
+				background-position: -144px 0;
+				vertical-align: top;
+				*vertical-align: middle
+			}
+		</style>
+		
+
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="content_wrap">
+				<div class="zTreeDemoBackground left">
+					<ul id="treeDemo" class="ztree"></ul>
+				</div>
+			</div>
+			<div class="">
+				<div>
+					<h5>已选择地区(单选)</h5>
+				</div>
+				<div class="showArea row border-2-gray radius">
+					
+				</div>
+			</div>
+			<div class="text-c mt-30 previewBox">
+				<button type="button" class="btn btn-default sure">确定</button>
+			</div>
+		</div>
+		
+		
+		<!--主要框架类库sss-->
+		<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+		<!--<script type="text/javascript" src="lib/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>-->
+		<script src="js/jquery.myPlugIn_v1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/layer-v3.0.1/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+	
+		<script type="text/javascript" src="lib/zTree/js/jquery.ztree.core.js"></script>
+		<script type="text/javascript" src="lib/zTree/js/jquery.ztree.excheck.js"></script>
+		<script type="text/javascript" src="lib/zTree/js/jquery.ztree.exedit.js"></script>
+		<script src="js/ztree-area-search-one.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(".previewBox .sure").click(function(){
+				var addrId = $(".hasSelect").attr("data-id");
+				var addr = $(".hasSelect button").text();
+				var addressInfo = {
+					"id":addrId,
+					"text":addr
+				};
+				$.cookie("addressInfo",JSON.stringify(addressInfo));
+				var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+				parent.layer.close(index);
+//				parent.location.reload();
+			});
+		</script>
+	</body>
+
+</html>

@@ -9,6 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="css/mark.css" />
 		
 		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/layer-v3.0.1/layer/layer.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.myPlugIn_v1.0.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/underscore.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/formTpl.js" type="text/javascript" charset="utf-8"></script>
@@ -32,7 +33,7 @@
 			<div id="diyMarkBox" >
 
 				<input type="button" value="选择标注样式" onclick="openStylePnl()" />
-				<input type="button" value="关闭" onclick="mkrTool.close()" />
+				<!--<input type="button" value="关闭" onclick="mkrTool.close()" />-->
 				<button type="button" onclick="ps()">说明</button>
 				<div id="divStyle">
 					<ul>
@@ -51,11 +52,11 @@
 		
 		<script type="text/javascript">
 			//渲染自定义覆盖物图标列表
-			$.ajax({
-				type:"get",
-				url:"json/markToolList1.json",
-				async:true,
-				success:function(data){
+			fnAjax.method_4(
+				'json/markToolList1.json',
+				'',
+				'get',
+				function(data){
 					$.each(data.htmlData, function(i,v) {
 						var aLi = $('<li></li>');
 						$.each(v.htmlData, function(k,e) {
@@ -64,11 +65,11 @@
 						});
 						$('#divStyle ul').append(aLi);
 					});
-					$.ajax({
-						type:"get",
-						url:"json/markToolList2.json",
-						async:true,
-						success:function(d){
+					fnAjax.method_4(
+						'json/markToolList2.json',
+						'',
+						'get',
+						function(d){
 							$.each(d.htmlData, function(i,v) {
 								var aLi = $('<li class="'+ v.className +'"></li>');
 								$.each(v.htmlData, function(k,e) {
@@ -78,9 +79,10 @@
 								$('#divStyle ul').append(aLi);
 							});
 						}
-					});
+					);
 				}
-			});
+				
+			);
 		</script>
 		<script type="text/javascript">
 			// 百度地图API功能
@@ -126,7 +128,7 @@
 			});
 			var cr = new BMap.Copyright();
 			cr.id = 000221012201;
-			cr.content = "肖浩彬的测试版本";
+			cr.content = "Copyright © 深圳市独尊科技开发有限公司";
 			var b = new BMap.Bounds(new BMap.Point(1, 1), new BMap.Point(150, 150));
 			cr.bounds = b;
 			copyrightControl.addCopyright(cr);
@@ -152,12 +154,12 @@
 				address += e.addressComponent.district;
 				address += e.addressComponent.street;
 				address += e.addressComponent.streetNumber;
-				alert("当前定位地址为：" + address);
+				layer.alert("当前定位地址为：" + address);
 				//			    console.log(geolocationControl.getAddressComponent());//：返回当前的定位信息。
 			});
 			//定位失败事件
 			geolocationControl.addEventListener("locationError", function(e) {
-				alert("定位失败：" + e.message);
+				layer.alert("定位失败：" + e.message);
 			});
 			map.addControl(geolocationControl);
 		</script>
@@ -274,7 +276,7 @@
 				var tanbaIcon = encodeHTML(document.getElementById("tanbaIcon").value);
 				
 				if(!tanbaName || !radius) {
-					alert("星号字段必须填写");
+					layer.alert("星号字段必须填写");
 					return;
 				}
 
@@ -475,7 +477,7 @@
 				
 			}
 			function ps(){
-				alert('右键删除，拖拽更改等该信息，点击更改信息！')
+				layer.alert('右键删除，拖拽更改等该信息，点击更改信息！')
 			}
 		</script>
 	</body>

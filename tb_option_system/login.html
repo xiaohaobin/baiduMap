@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8">
+		<!-- IE -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!-- 设置 viewport -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- 兼容国产浏览器的高速模式 -->
+		<meta name="renderer" content="webkit">
+		<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+		<title>登录</title>
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+		<!-- boots3-->
+		<link rel="stylesheet" type="text/css" href="lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/commo.css" />
+
+		<style type="text/css">
+			html,
+			body {
+				position: relative;
+				width: 100%;
+				height: 100%;				
+  				background: url(img/bg.png) no-repeat;
+  				background-size:cover;
+			}
+			.loginBox{
+				    background: #fff;
+				    text-align: center;
+				    width: 500px;
+				    height: 364px;
+				    margin: 16em auto 5em;
+				    border-radius:5px ;
+			}
+			.form{
+				padding: 1em 1em 1em 1em;
+				
+			}
+			div.form-group{
+				margin: 0;
+			}
+			.form>div{
+				margin: 1em 6em;
+			}
+			.form-horizontal .form-group {
+			    margin: 2em;
+			}
+			.imgUser,.imgLock{
+				background: none;
+			}
+			.imgUser img,.imgLock img{
+				width: 18px;				
+			}
+		</style>
+
+		
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="loginBox">
+				<form class="form form-horizontal" action="#" method="post">
+				  <div class="text-c">
+				  	<h2>探霸终端部署系统</h2>
+				  </div>	
+			      <div class="form-group">
+			        <!--<label class="control-label" for="inputGroupSuccess1">账户</label>-->
+			        <div class="input-group">
+			          <span class="input-group-addon imgUser"><img src="img/user.png"/></span>
+			          <input class="form-control input-lg" id="userName" aria-describedby="inputGroupSuccess1Status" type="text" placeholder="请输入用户名">
+			        </div>
+			        <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+			        <span id="inputGroupSuccess1Status" class="sr-only">(success)</span>-->
+			      </div>
+			      
+			      <div class="form-group">
+			        <!--<label class="control-label" for="inputGroupSuccess1">密码</label>-->
+			        <div class="input-group">
+			          <span class="input-group-addon imgLock"><img src="img/lock.png"/></span>
+			          <input class="form-control input-lg" id="userPwd" aria-describedby="inputGroupSuccess1Status" type="password" placeholder="请输入密码">
+			        </div>
+			        <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+			        <span id="inputGroupSuccess1Status" class="sr-only">(success)</span>-->
+			      </div>
+			      
+			      <div class="row cl">
+			        <button type="button" class="btn btn-primary btn-lg btn-block loginBtn">登录</button>
+			      </div>
+			      <div class="parentClear form-group">
+			      	<!--<a href="#" class="forgetPwd pull-left">忘记密码</a>-->
+			      	<span class="pull-right">v.001</span>
+			      </div>
+			    </form>
+			</div>
+		</div>
+
+		<!--主要框架类库sss-->
+		<script type="text/javascript" src="lib/jquery/1.9.1/jquery.js"></script>
+		<script type="text/javascript" src="lib/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+		<!--<script src="../../lib/echarts/echarts.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../lib/echarts/bmap.min.js" type="text/javascript" charset="utf-8"></script><br />
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=8ZEtx5kDGsbBFL80Ppda29D8wjnGil7I"></script>-->
+		<!--主要框架类库eee-->
+
+		<!--公共脚本sss-->
+		<!--<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="js/jquery.myPlugIn_v1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/localstorage-ie.js" type="text/javascript" charset="utf-8"></script>
+		<!--公共脚本eee-->
+
+		<!--常用插件sss-->
+		<!--<script src="../../lib/laypage/1.2/laypage.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="lib/layer-v3.0.1/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="../../js/jquery.nicescroll.js" type="text/javascript" charset="utf-8"></script>-->
+		<!--<script src="../../lib/My97DatePicker/4.8/WdatePicker.js" type="text/javascript" charset="utf-8"></script>-->
+		<!--常用插件eee-->
+		
+		<script type="text/javascript">
+			$(".loginBtn").click(function(){
+				fnAjax.method_4(
+					url_join("Login/adminLogin"),
+					{
+						"userName":$("#userName").val(),
+						"passWord":$("#userPwd").val()
+					},
+					"post",
+					function(data){
+						console.log(data);
+						if(data.code == 0){
+							$.cookie("UserId",data.data.UserId);
+							$.cookie("UserName",data.data.UserName);
+							localStorage.setItem("UserId",data.data.UserId);
+							localStorage.setItem("UserName",data.data.UserName);
+							layer.msg(data.message,{icon:1,time:1500},function(){
+								window.location.href = "index.html";
+							});
+						}
+					}
+				);
+			});
+			
+			$(window).keyup(function(event){
+				if(event.keyCode == "13") {
+					$(".loginBtn").trigger("click");
+				}
+			});
+			
+			//忘记密码
+			$(".forgetPwd").click(function(){
+				layer.open({
+				  type: 2,
+				  area: ['600px', '500px'],
+//				  area: ['100%', '100%'],
+				  fixed: false, //不固定
+				  maxmin: true,
+				  title:"忘记密码",
+				  content: 'forgetPwd.html'
+				});
+			});
+		</script>
+	</body>
+
+</html>

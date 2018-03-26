@@ -1,0 +1,134 @@
+/* 样式选择面板相关css */
+
+#divStyle {
+	width: 280px;
+	/*height: 160px;*/
+	border: solid 1px gray;
+	display: block;
+	margin: 2px;
+	0px;
+	display: none;
+}
+
+#divStyle ul {
+	list-style-type: none;
+	padding: 2px 2px;
+	margin: 2px 2px
+}
+
+#divStyle ul li a {
+	cursor: pointer;
+	margin: 2px 2px;
+	/*width: 30px;
+	height: 30px;*/
+	display: inline-block;
+	border: solid 1px #ffffff;
+	text-align: center;
+	min-width: 30px;
+	min-height: 15px;
+}
+
+#divStyle ul li a:hover {
+	background: none;
+	border: solid 1px gray;
+}
+
+#divStyle ul li img {
+	border: none;
+	background: url('http://api.map.baidu.com/library/MarkerTool/1.2/examples/images/icon.gif');
+}
+
+
+/* infowindow相关css */
+
+.common {
+	font-size: 12px;
+}
+
+.star {
+	color: #ff0000;
+}
+
+#divStyle ul .tanbaIconList a img {
+	background-image: none;
+	width: 19px;
+	height: 25px;
+}
+
+html {
+	height: 100%
+}
+
+body {
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	position: relative;
+	padding-top: 10px;
+}
+
+#allmap {
+	height: 95%;
+	/*width: 100%;*/
+	box-sizing: border-box;
+	margin:10px 10px 0;
+}
+
+#container {
+	font-size: 12px;
+	margin: 5px 0;
+}
+
+.BMap_scaleCtrl.BMap_noprint.anchorTR {
+	background: #fff;
+	border: 1px solid #ddd;
+	/*padding: 10px 3px;*/
+}
+
+.BMap_cpyCtrl.BMap_noprint.anchorBL {
+	display: none;
+}
+
+.lf {
+	float: left;
+}
+
+.rf {
+	float: right;
+}
+
+.parentClear {
+	overflow: hidden;
+}
+
+.parentClear:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+#divStyle {
+	position: absolute;
+	top: 46px;
+	left: 0;
+	background: #fff;
+	z-index: 200;
+}
+.BMap_bubble_content{
+	overflow: auto;
+}
+.scroll{
+	overflow: scroll !important;
+}
+.ztree li span.button.add {
+	margin-left: 2px;
+	margin-right: -1px;
+	background-position: -144px 0;
+	vertical-align: top;
+	*vertical-align: middle
+}
+@media only screen and (max-width:720px ) {
+	.mobile-hide{
+		display: none;
+	}
+}
