@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>demo</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style type="text/css">
+			html {
+				height: 100%
+			}
+
+			body {
+				height: 100%;
+				margin: 0px;
+				padding: 0px;
+				position: relative;
+			}
+
+			#allmap {
+				width: 100%;
+				height: 800px;
+			}
+
+			.BMap_cpyCtrl.BMap_noprint.anchorBL {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="allmap"></div>
+		
+		<!--<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>-->
+		<script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=A1LU7iHS0avqQwPLAxbhKn0UYSQCuRVH"></script>
+		<script src="js/mapControl.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var map = new BMap.Map("allmap");
+			var point = new BMap.Point(113.95403656908,22.549744538467);
+			map.enableScrollWheelZoom(false); //默认关闭鼠标缩放。重新设置true
+			map.centerAndZoom(point, 19);//定中心
+			map.addControl(mapControl.navigationControl()); 
+			map.addControl(mapControl.geolocationControl());
+			
+			//创建标注
+			var marker = mapControl.createMarker({
+				lng:113.95403656908,
+				lat:22.549744538467,
+				Icon:mapControl.setIcon({
+					imgUrl:"../img/car.png",
+					width:52,
+					height:26
+				})
+			});
+			map.addOverlay(marker);
+// 			marker.setAnimation(BMAP_ANIMATION_DROP);//坠落动画
+// 			marker.setAnimation(BMAP_ANIMATION_BOUNCE);//跳动动画
+			//设置标注
+			marker.setLabel(
+				mapControl.setLabel()
+			);
+			
+			//打开窗口
+			// map.openInfoWindow(mapControl.setWindow(),marker.getPosition());
+			
+			//右键菜单
+			marker.addContextMenu(mapControl.setContextMenu());
+		</script>
+	</body>
+</html>
